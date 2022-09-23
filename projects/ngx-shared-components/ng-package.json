@@ -3,5 +3,6 @@
   "dest": "../../dist/ngx-shared-components",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "allowedNonPeerDependencies": ["@ng-icons/core", "@ng-icons/heroicons"]
 }
