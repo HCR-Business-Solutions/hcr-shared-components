@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CardBaseComponent } from './cards/card-base.component';
-import { CardAlertComponent } from './cards/card-alert.component';
+import { CardBaseComponent } from './components/cards/card-base.component';
+import { CardAlertComponent } from './components/cards/card-alert.component';
 import { ApplyCssPropsDirective } from './directives/apply-css-props.directive';
 import { NgIconsModule } from '@ng-icons/core';
 import {
@@ -20,7 +20,7 @@ import {
   heroLockClosed,
   heroLockOpen,
 } from '@ng-icons/heroicons/outline';
-import { CardInternalComponent } from './cards/card-internal.component';
+import { CardInternalComponent } from './components/cards/card-internal.component';
 
 const includedIcons: Record<string, string> = {
   heroCheckCircle,

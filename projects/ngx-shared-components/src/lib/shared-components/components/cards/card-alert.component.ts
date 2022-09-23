@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CardBaseComponent } from './card-base.component';
 
-import * as ColorHelpers from '../utilities/color';
+import * as ColorHelpers from '../../utilities/color';
 import { CardConfig } from './helpers/card-config';
 
 @Component({
