@@ -2,38 +2,69 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CardBaseComponent } from './card-base.component';
 
 import * as ColorHelpers from '../utilities/color';
+import { CardConfig } from './helpers/card-config';
 
 @Component({
   template: `
     <lib-card-base
       [containerClasses]="this.containerClasses"
-      [cardClasses]="this.cardClasses"
-      [libApplyCssProps]="this.alertProps"
+      [cardConfig]="this.cardConfig"
     >
-      <!-- Display the icon using content projection selector alertIcon -->
-      <div class="alert-icon">
-        <!-- <ng-content select="[alertIcon]"></ng-content> -->
-      </div>
-      <!-- Display the message using content projection selector alertMessage -->
-      <div class="alert-message">
-        <ng-content></ng-content>
+      <div class="alert-inner-container">
+        <!-- Display the icon using content projection selector alertIcon -->
+        <div class="alert-icon">
+          <ng-icon [name]="this.icon" [size]="this.iconSize"></ng-icon>
+        </div>
+        <!-- Display the message using content projection selector alertMessage -->
+        <div class="alert-message">
+          <ng-content></ng-content>
+        </div>
       </div>
     </lib-card-base>
   `,
-  styles: [],
+  styles: [
+    `
+      .alert-inner-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.5rem;
+      }
+    `,
+    `
+      .alert-icon {
+        min-width: 1rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+      }
+    `,
+    `
+      .alert-message {
+        flex: 1 1 auto;
+      }
+    `,
+  ],
   selector: 'lib-card-alert',
 })
 export class CardAlertComponent implements OnInit {
-  @Input() type: 'success' | 'info' | 'warning' | 'danger' = 'success';
+  @Input() type: 'success' | 'info' | 'warning' | 'danger' | 'question' =
+    'success';
   @Input() containerClasses?: { [key: string]: boolean } = {};
   @Input() cardClasses?: { [key: string]: boolean } = {};
+  @Input() iconSize: string = '3.5rem';
 
   @Input() customBackgroundColors?: {
     success?: string;
     info?: string;
     warning?: string;
     danger?: string;
+    question?: string;
   };
+
+  @Input() cardConfigOverride: Partial<CardConfig> = {};
 
   @Input() skipSimilarColor: boolean = false;
 
@@ -43,26 +74,59 @@ export class CardAlertComponent implements OnInit {
     info: 'hsla(210, 100%, 90%, .5)',
     warning: 'hsla(60, 100%, 90%, .5)',
     danger: 'hsla(0, 100%, 90%, .5)',
+    question: 'hsla(240, 100%, 90%, .5)',
+  };
+
+  private readonly iconMap: { [key: string]: string } = {
+    success: 'heroCheckCircle',
+    info: 'heroInformationCircle',
+    warning: 'heroExclamationCircle',
+    danger: 'heroXCircle',
+    question: 'heroQuestionMarkCircle',
   };
 
   constructor() {}
 
   ngOnInit(): void {}
 
+  get icon(): string {
+    return this.iconMap[this.type];
+  }
+
+  /**
+   * getter: cardConfig
+   *
+   * @returns CardConfig
+   *
+   * @description gets the current CardConfig
+   * if cardConfigOverride has classes, use those else use an empty object
+   * if cardConfigOverride has styles, use those
+   * if cardConfigOverride has no styles, gather the styles from getters and methods
+   *
+   */
+  public get cardConfig(): Partial<CardConfig> {
+    const overrideStyles = this.cardConfigOverride?.styles ?? {};
+    return {
+      classes: this.cardConfigOverride.classes ?? {},
+      styles: {
+        backgroundColor: overrideStyles.backgroundColor ?? this.backgroundColor,
+        textColor: overrideStyles.textColor ?? this.textColor(),
+        borderColor: overrideStyles.borderColor ?? this.borderColor(),
+        borderRadius: overrideStyles.borderRadius ?? '0.5rem',
+        borderWidth: overrideStyles.borderWidth ?? '1px',
+        borderStyle: overrideStyles.borderStyle ?? 'solid',
+        boxShadow: overrideStyles.boxShadow ?? this.boxShadow(),
+        padding: overrideStyles.padding ?? '1rem',
+        margin: overrideStyles.margin ?? '0.5rem',
+      },
+    };
+  }
+
   get backgroundColor(): string {
     return (
       this.customBackgroundColors?.[this.type] ??
       this.backgroundColorMap[this.type]
     );
-  }
-
-  // Public Getter Alert Props As Record<string, string>
-  public get alertProps(): Record<string, string> {
-    return {
-      '--card-background-color': this.backgroundColor,
-      '--card-border-color': this.borderColor(),
-      '--card-text-color': this.textColor(),
-    };
   }
 
   /**
@@ -89,11 +153,25 @@ export class CardAlertComponent implements OnInit {
    *
    */
   public textColor(): string {
-    const color = this.backgroundColorMap[this.type];
+    const color = this.backgroundColor;
     const solid = ColorHelpers.setAlpha(color, 1);
     const accessibleColor = !this.skipSimilarColor
       ? ColorHelpers.getAccessibleColor(solid ?? color, 'AAA')
       : null;
     return accessibleColor ?? (ColorHelpers.isLight(color) ? 'black' : 'white');
+  }
+
+  /**
+   * getter: boxShadow
+   *
+   * use the backgroundColor to get the box shadow color
+   * the box shadow should be only 10% opaque
+   * the box shadow should be subtle and only on the bottom
+   *
+   */
+  public boxShadow(): string {
+    const color = this.backgroundColor;
+    const boxShadowColor = ColorHelpers.setAlpha(color, 0.5);
+    return `2px 0 5px ${boxShadowColor ?? color}`;
   }
 }
