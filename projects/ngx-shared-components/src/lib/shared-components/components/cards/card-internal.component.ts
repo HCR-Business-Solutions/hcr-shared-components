@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CardConfig } from './helpers/card-config';
+
+
 
 @Component({
   selector: 'lib-card-internal',
@@ -11,28 +12,28 @@ import { CardConfig } from './helpers/card-config';
   styles: [
     `
       :host {
-        --card-background-color: inherit;
-        --card-border-color: hsla(0, 0%, 0%, 0.125);
-        --card-border-radius: 0;
-        --card-border-width: 1px;
-        --card-boder-style: solid;
-        --card-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-        --card-padding: 0;
-        --card-margin: 0;
-        --card-text-color: inherit;
+        --card--width: auto;
+        --card--height: auto;
+        --card--padding: 0;
+        --card--margin: 0;
+        --card--background: inherit;
+        --card--color: inherit;
+        --card--border: none;
+        --card--border-radius: 0px;
+        --card--box-shadow: none;
       }
     `,
     `
       .card {
-        background-color: var(--card-background-color);
-        border-color: var(--card-border-color);
-        border-radius: var(--card-border-radius);
-        border-style: var(--card-boder-style);
-        border-width: var(--card-border-width);
-        box-shadow: var(--card-box-shadow);
-        color: var(--card-text-color);
-        padding: var(--card-padding);
-        margin: var(--card-margin);
+        width: var(--card--width);
+        height: var(--card--height);
+        padding: var(--card--padding);
+        margin: var(--card--margin);
+        background: var(--card--background);
+        color: var(--card--color);
+        border: var(--card--border);
+        border-radius: var(--card--border-radius);
+        box-shadow: var(--card--box-shadow);
       }
     `,
   ],

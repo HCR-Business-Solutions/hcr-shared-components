@@ -1,6 +1,15 @@
-import { CardStyles } from './card-styles';
+import { getPropMap, IStyleConfig } from '../../../utilities';
 
-export interface CardConfig {
-  classes: { [key: string]: boolean };
-  styles: Partial<CardStyles>;
+export interface ICardConfig {
+  classes?: { [key: string]: boolean };
+  styles?: IStyleConfig;
+}
+
+export function getUpdateProps(cardConfig: ICardConfig): Record<string, string> {
+
+  if (!cardConfig.styles) return {};
+
+  return getPropMap('card', cardConfig.styles);
+
+
 }
