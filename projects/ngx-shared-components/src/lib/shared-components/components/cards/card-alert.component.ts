@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CardBaseComponent } from './card-base.component';
 
-import * as ColorHelpers from '../../utilities/color';
-import { CardConfig } from './helpers/card-config';
+import { ICardConfig } from './helpers/card-config';
+import { HSLA, IStyleConfig } from '../../utilities';
 
 @Component({
   template: `
@@ -57,24 +57,24 @@ export class CardAlertComponent implements OnInit {
   @Input() iconSize: string = '3.5rem';
 
   @Input() customBackgroundColors?: {
-    success?: string;
-    info?: string;
-    warning?: string;
-    danger?: string;
-    question?: string;
+    success?: HSLA;
+    info?: HSLA;
+    warning?: HSLA;
+    danger?: HSLA;
+    question?: HSLA;
   };
 
-  @Input() cardConfigOverride: Partial<CardConfig> = {};
+  @Input() cardConfigOverride: Partial<ICardConfig> = {};
 
   @Input() skipSimilarColor: boolean = false;
 
   // Private Readonly Default Background Color Map For Each Alert Type As HSLA
-  private readonly backgroundColorMap: { [key: string]: string } = {
-    success: 'hsla(120, 100%, 90%, .5)',
-    info: 'hsla(210, 100%, 90%, .5)',
-    warning: 'hsla(60, 100%, 90%, .5)',
-    danger: 'hsla(0, 100%, 90%, .5)',
-    question: 'hsla(240, 100%, 90%, .5)',
+  private readonly backgroundColorMap: { [key: string]: HSLA } = {
+    success: new HSLA(120, 100, 90, .5),
+    info: new HSLA(210, 100, 90, .5),
+    warning: new HSLA(60, 100, 90, .5),
+    danger: new HSLA(0, 100, 90, .5),
+    question: new HSLA(240, 100, 90, .5),
   };
 
   private readonly iconMap: { [key: string]: string } = {
@@ -104,25 +104,34 @@ export class CardAlertComponent implements OnInit {
    * if cardConfigOverride has no styles, gather the styles from getters and methods
    *
    */
-  public get cardConfig(): Partial<CardConfig> {
-    const overrideStyles = this.cardConfigOverride?.styles ?? {};
+  public get cardConfig(): Partial<ICardConfig> {
+    const overrideStyles: IStyleConfig | undefined = this.cardConfigOverride?.styles;
     return {
       classes: this.cardConfigOverride.classes ?? {},
       styles: {
-        backgroundColor: overrideStyles.backgroundColor ?? this.backgroundColor,
-        textColor: overrideStyles.textColor ?? this.textColor(),
-        borderColor: overrideStyles.borderColor ?? this.borderColor(),
-        borderRadius: overrideStyles.borderRadius ?? '0.5rem',
-        borderWidth: overrideStyles.borderWidth ?? '1px',
-        borderStyle: overrideStyles.borderStyle ?? 'solid',
-        boxShadow: overrideStyles.boxShadow ?? this.boxShadow(),
-        padding: overrideStyles.padding ?? '1rem',
-        margin: overrideStyles.margin ?? '0.5rem',
+        default: {
+
+          width: overrideStyles?.default.width,
+          height: overrideStyles?.default.height,
+
+          padding: overrideStyles?.default.padding,
+          margin: overrideStyles?.default.margin,
+
+          background: overrideStyles?.default.background ?? this.background,
+          color: overrideStyles?.default.color ?? this.textColor,
+
+          border: overrideStyles?.default.border ?? this.border,
+          borderRadius: overrideStyles?.default.borderRadius ?? '0.5rem',
+
+          boxShadow: overrideStyles?.default.boxShadow ?? this.boxShadow,
+
+        },
+        states: overrideStyles?.states ?? undefined,
       },
     };
   }
 
-  get backgroundColor(): string {
+  get background(): HSLA {
     return (
       this.customBackgroundColors?.[this.type] ??
       this.backgroundColorMap[this.type]
@@ -137,10 +146,11 @@ export class CardAlertComponent implements OnInit {
    * handle the case where darkenColor returns null
    *
    */
-  public borderColor(): string {
-    const color = this.backgroundColor;
-    const darkenedColor = ColorHelpers.darken(color, 0.8);
-    return darkenedColor ?? color;
+  public get border(): string {
+    const color = this.background;
+    const borderColor = color.copy();
+    borderColor.darken(25)
+    return `1px solid ${borderColor.prop}`
   }
 
   /**
@@ -152,13 +162,12 @@ export class CardAlertComponent implements OnInit {
    * if getAccessibleColor returns null, if the color is light, use black, otherwise use white
    *
    */
-  public textColor(): string {
-    const color = this.backgroundColor;
-    const solid = ColorHelpers.setAlpha(color, 1);
-    const accessibleColor = !this.skipSimilarColor
-      ? ColorHelpers.getAccessibleColor(solid ?? color, 'AAA')
-      : null;
-    return accessibleColor ?? (ColorHelpers.isLight(color) ? 'black' : 'white');
+  public get textColor(): HSLA {
+    const bgColor = this.background.copy();
+    bgColor.setA(1);
+    const textColor = !this.skipSimilarColor ? bgColor.getSimilarTextColor('AAA') : bgColor.getTextColor();
+
+    return textColor;
   }
 
   /**
@@ -169,9 +178,9 @@ export class CardAlertComponent implements OnInit {
    * the box shadow should be subtle and only on the bottom
    *
    */
-  public boxShadow(): string {
-    const color = this.backgroundColor;
-    const boxShadowColor = ColorHelpers.setAlpha(color, 0.5);
-    return `2px 0 5px ${boxShadowColor ?? color}`;
+  public get boxShadow(): string {
+    const color = this.background.copy();
+    color.setA(0.5)
+    return `2px 0 5px ${color.prop}`;
   }
 }

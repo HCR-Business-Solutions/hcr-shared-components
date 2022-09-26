@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CardConfig } from './helpers/card-config';
-import { CardStyles, buildUpdateProps } from './helpers/card-styles';
+import { IBaseStyleOverride } from '../../utilities';
+import { getUpdateProps, ICardConfig } from './helpers/card-config';
 
 @Component({
   selector: 'lib-card-base',
@@ -26,22 +26,28 @@ import { CardStyles, buildUpdateProps } from './helpers/card-styles';
   ],
 })
 export class CardBaseComponent implements OnInit {
-  private readonly defaultStyles: CardStyles = {
-    backgroundColor: 'inherit',
-    borderColor: 'hsla(0, 0%, 0%, 0.125)',
-    borderRadius: '0.25rem',
-    borderWidth: '1px',
-    borderStyle: 'solid',
-    boxShadow: '0 0 0 0 rgba(0, 0, 0, 0)',
-    padding: '1rem',
+  private readonly defaultStyles: IBaseStyleOverride = {
+
+    width: 'auto',
+    height: 'auto',
+
+    padding: '.25rem',
     margin: '0',
-    textColor: 'inherit',
+
+    background: 'inherit',
+    color: 'inherit',
+
+    border: '1px solid hsla(0, 0%, 0%, .6)',
+    borderRadius: '0.25rem',
+
+    boxShadow: '2px 0 5px hsla(0, 0%, 0%, .125)',
+
   };
 
   @Input() containerClasses?: { [key: string]: boolean } = {};
 
-  @Input() cardConfig: Partial<CardConfig> = {
-    styles: this.defaultStyles,
+  @Input() cardConfig: Partial<ICardConfig> = {
+    styles: {default: this.defaultStyles},
   };
 
   constructor() {}
@@ -55,10 +61,10 @@ export class CardBaseComponent implements OnInit {
    *
    * @description takes the styles from the cardConfig and returns a record of css properties
    * if no styles are provided for a given property, the default styles are used
-   * uses the buildUpdateProps function to build the record
+   * uses the getUpdateProps function to build the record
    *
    */
   get resolvedProps(): Record<string, string> {
-    return buildUpdateProps(this.cardConfig.styles ?? this.defaultStyles);
+    return getUpdateProps(this.cardConfig);
   }
 }
