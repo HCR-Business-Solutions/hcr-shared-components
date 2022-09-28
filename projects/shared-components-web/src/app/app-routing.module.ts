@@ -7,6 +7,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./routes/card/card.module').then((m) => m.CardModule),
   },
+  { path: 'testing-r', loadChildren: () => import('./routes/testing-r/testing-r.module').then(m => m.TestingRModule) },
 ];
 
 @NgModule({
