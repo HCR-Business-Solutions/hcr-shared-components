@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IMenuConfig } from './helpers/menu-config';
 
 @Component({
@@ -7,15 +7,14 @@ import { IMenuConfig } from './helpers/menu-config';
     <div
       class="menu-backdrop"
       *ngIf="this.dropdownOpen"
-      (click)="this.dropdownOpen = false"
+      (click)="this.handleDropdownChange(false)"
     ></div>
     <div class="menu-container">
       <lib-menu-button
-        (onClick)="this.dropdownOpen = !this.dropdownOpen"
+        (onClick)="this.handleDropdownChange()"
       ></lib-menu-button>
       <lib-menu-dropdown
         *ngIf="this.dropdownOpen"
-        (onBackdropClick)="this.dropdownOpen = false"
         [menuPosition]="this.menuPosition"
       >
         <ng-content></ng-content>
@@ -45,7 +44,8 @@ import { IMenuConfig } from './helpers/menu-config';
 })
 export class MenuComponent implements OnInit {
   @Input() menuStyleConfig?: IMenuConfig;
-  dropdownOpen = false;
+  @Input() dropdownOpen = false;
+  @Output() dropdown: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @Input() menuPosition:
     | 'top-left'
@@ -56,4 +56,13 @@ export class MenuComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  handleDropdownChange(next?: boolean): void {
+    if (next === undefined) {
+      next = !this.dropdownOpen;
+    }
+
+    this.dropdownOpen = next;
+    this.dropdown.emit(next);
+  }
 }
