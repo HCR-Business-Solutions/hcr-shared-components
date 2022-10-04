@@ -96,8 +96,6 @@ export class MenuDropdownComponent implements OnInit {
     | 'bottom-left'
     | 'bottom-right' = 'bottom-left';
 
-  @Output() onBackdropClick = new EventEmitter<MouseEvent>();
-
   constructor() {}
 
   ngOnInit(): void {}

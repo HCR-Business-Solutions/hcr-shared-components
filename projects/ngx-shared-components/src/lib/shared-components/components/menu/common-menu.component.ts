@@ -1,10 +1,22 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 
 @Component({
   selector: 'lib-common-menu',
   template: `
-    <lib-menu [menuPosition]="this.menuPosition">
-      <lib-menu-item *ngFor="let item of this.allMenuItems">
+    <lib-menu
+      [menuPosition]="this.menuPosition"
+      [dropdownOpen]="this.menuOpened"
+      (dropdown)="this.menuOpened = $event"
+    >
+      <lib-menu-item *ngFor="let item of this.allMenuItems; last as isLast">
         <div
           class="menu-content"
           [ngClass]="{ action: item.isAction }"
@@ -13,6 +25,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
           <ng-icon class="icon" [name]="item.icon"></ng-icon>
           <div class="text">{{ item.text }}</div>
         </div>
+        <hr *ngIf="!isLast" class="menu-divider" />
       </lib-menu-item>
     </lib-menu>
   `,
@@ -24,6 +37,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
         flex-direction: row;
         align-items: center;
         gap: 1.5rem;
+        padding: 1rem 1.5rem;
       }
 
       .menu-content.action:hover,
@@ -48,6 +62,15 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
       .menu-content .text {
         justify-self: center;
         margin-right: 1.5rem;
+      }
+    `,
+    `
+      .menu-divider {
+        margin: 0 1rem;
+        height: 1px;
+        border: none;
+        color: hsla(0, 0%, 0%, 0.3);
+        background-color: hsla(0, 0%, 0%, 0.3);
       }
     `,
   ],
@@ -76,6 +99,8 @@ export class CommonMenuComponent implements OnInit {
   }[] = [];
 
   @Output() menuItemClicked: EventEmitter<string> = new EventEmitter<string>();
+
+  menuOpened: boolean = false;
 
   constructor() {}
 
@@ -109,5 +134,6 @@ export class CommonMenuComponent implements OnInit {
 
   onMenuItemClicked(actionId: string) {
     this.menuItemClicked.emit(actionId);
+    this.menuOpened = false;
   }
 }
