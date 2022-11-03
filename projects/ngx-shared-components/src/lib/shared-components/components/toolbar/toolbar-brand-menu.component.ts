@@ -40,44 +40,44 @@ import { IToolbarConfig } from './helpers';
             }
     `,
     `
-    .logo-content{
-       display: flex;
-      align-self: stretch!important;
-      align-items: center;
-      height: 100%!important;
-      margin-right: auto!important;
-      vertical-align: middle;
-      min-height: 70px;
-    }
+      .logo-content{
+        display: flex;
+        align-self: stretch!important;
+        align-items: center;
+        height: 100%!important;
+        margin-right: auto!important;
+        vertical-align: middle;
+        min-height: 70px;
+      }
     `,
     `
-    .logo{
-      padding: 0.5rem!important;
-      padding-top: 0px;
-    }
+      .logo{
+        padding: 0.5rem!important;
+        padding-top: 0px;
+      }
     `,
     `
-    .app-name-content{
-       position: relative!important;
-      color: #fff!important;
-      opacity: 0.9;
-      white-space: nowrap;
-      padding: 0.5rem!important;
-    }
+      .app-name-content{
+        position: relative!important;
+        color: #fff!important;
+        opacity: 0.9;
+        white-space: nowrap;
+        padding: 0.5rem!important;
+      }
     `,
     `
-    .app-name{
-       line-height: 1em;
-       padding-bottom: 0.35rem;
-       white-space: nowrap;
-    }
+      .app-name{
+        line-height: 1em;
+        padding-bottom: 0.35rem;
+        white-space: nowrap;
+      }
     `,
     `
-    .sub-app-name{
-       font-size: 14px;
-      font-weight: 500;
-      line-height: 1em;
-    }
+      .sub-app-name{
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1em;
+      }
     `,
     ]
 })
@@ -100,20 +100,20 @@ export class ToolbarBrandMenuComponent implements OnInit {
 
     // Private Readonly Default Background Color Map For Each background Type As HSLA
     private readonly backgroundColorMap: { [key: string]: HSLA } = {
-      dhcr: new HSLA(268, 41, 34, .5),
-      its: new HSLA(17, 79, 40, .5),
+      dhcr: new HSLA(268, 41, 34, 1),
+      its: new HSLA(17, 79, 40, 1),
     };
 
-toolbarConfig: IToolbarConfig = {
-  styles: {
-    default: {
-      background: new HSLA (268, 41, 34),
-      color: new HSLA (0,0,100),
-      boxShadow: '5px 0px 10px rgb(0 0 0 .5)',
-      padding: '0 .75em 0 .75em'
-    }
-  }
-}
+// toolbarConfig: IToolbarConfig = {
+//   styles: {
+//     default: {
+//       background: new HSLA (268, 41, 34),
+//       color: new HSLA (0,0,100),
+//       boxShadow: '5px 0px 10px rgb(0 0 0 .5)',
+//       padding: '0 .75em 0 .75em'
+//     }
+//   }
+// }
 
   constructor() { }
 
@@ -131,7 +131,7 @@ toolbarConfig: IToolbarConfig = {
    * if cardConfigOverride has no styles, gather the styles from getters and methods
    *
    */
-    public get cardConfig(): Partial<IToolbarConfig> {
+    public get toolbarConfig(): Partial<IToolbarConfig> {
       const overrideStyles: IStyleConfig | undefined = this.toolbarConfigOverride?.styles;
       return {
         classes: this.toolbarConfigOverride.classes ?? {},
@@ -148,7 +148,7 @@ toolbarConfig: IToolbarConfig = {
             color: overrideStyles?.default.color ?? this.textColor,
 
             border: overrideStyles?.default.border ?? this.border,
-            borderRadius: overrideStyles?.default.borderRadius ?? '0.5rem',
+            borderRadius: overrideStyles?.default.borderRadius ,
 
             boxShadow: overrideStyles?.default.boxShadow ?? this.boxShadow,
 
@@ -159,6 +159,7 @@ toolbarConfig: IToolbarConfig = {
     }
 
     get background(): HSLA {
+      console.log(this.backgroundColorMap[this.type]);
       return (
         this.customBackgroundColors?.[this.type] ??
         this.backgroundColorMap[this.type]
@@ -190,6 +191,7 @@ toolbarConfig: IToolbarConfig = {
    *
    */
    public get textColor(): HSLA {
+
     const bgColor = this.background.copy();
     bgColor.setA(1);
     const textColor = !this.skipSimilarColor ? bgColor.getSimilarTextColor('AAA') : bgColor.getTextColor();
