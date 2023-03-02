@@ -1,11 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Message } from './types/message';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { MessageStatusComponent } from './message-status.component';
 import {
   MessageTimestampComponent,
-  MessageTimestampOptions,
+  MessageTimestampOptions
 } from './message-timestamp.component';
 import { MessageType } from './types';
+import { Message } from './types/message';
 
 export interface BubbleCorners {
   topLeft: boolean;
@@ -17,6 +18,7 @@ export interface BubbleCorners {
 export interface MessageBubbleOptions {
   displayOwner?: boolean;
   displayTimestamp?: boolean;
+  displayStatus?: boolean;
   rounding?: {
     radius: string;
     corners?: Partial<BubbleCorners>;
@@ -26,7 +28,7 @@ export interface MessageBubbleOptions {
 @Component({
   selector: 'nyhcr-message-bubble',
   standalone: true,
-  imports: [CommonModule, MessageTimestampComponent],
+  imports: [CommonModule, MessageTimestampComponent, MessageStatusComponent],
   template: `
     <div
       class="message-bubble-container"
@@ -34,8 +36,8 @@ export interface MessageBubbleOptions {
       [class.sent-message]="this.messageType === 'SENT'"
       [ngStyle]="{ 'border-radius': this.borderRadius }"
     >
-      <div class="meta-content">
-        <div class="owner" *ngIf="this.options?.displayOwner">
+      <div class="meta-content" *ngIf="this.metaPresent">
+        <div class="owner" *ngIf="this.displayOwner">
           {{ this.message.owner.display }}
         </div>
         <nyhcr-message-timestamp
@@ -43,6 +45,10 @@ export interface MessageBubbleOptions {
           [message]="this.message"
           [options]="this.timestampOptions"
         ></nyhcr-message-timestamp>
+        <div class="spacer" *ngIf="this.displayStatus"></div>
+        <div class="status-container" *ngIf="this.displayStatus">
+          <nyhcr-message-status [message]="this.message"></nyhcr-message-status>
+        </div>
       </div>
       <div class="message-content">
         {{ this.message.content }}
@@ -75,6 +81,25 @@ export interface MessageBubbleOptions {
         overlow-wrap: break-word;
       }
     `,
+    `
+      .meta-content {
+        font-size: 0.75rem;
+        margin-top: -0.25rem;
+        display: flex;
+        flex-direction: row;
+        gap: 0.25rem;
+      }
+    `,
+    `
+      .owner {
+        font-weight: 700;
+      }
+    `,
+    `
+    .spacer {
+      flex-grow: 1;
+    }
+    `
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -100,5 +125,23 @@ export class MessageBubbleComponent {
       : 0;
 
     return `${topLeft} ${topRight} ${bottomRight} ${bottomLeft}`;
+  }
+
+  get displayOwner(): boolean {
+    return (
+      this.options?.displayOwner !== undefined ? this.options?.displayOwner : this.messageType === 'RECEIVED'
+    );
+  }
+
+  get displayStatus(): boolean {
+    return this.options?.displayStatus !== undefined ? this.options?.displayStatus : this.messageType === 'SENT';
+  }
+
+  get metaPresent(): boolean {
+    return !!(
+      this.displayOwner ||
+      this.options?.displayTimestamp ||
+      this.displayStatus
+    );
   }
 }

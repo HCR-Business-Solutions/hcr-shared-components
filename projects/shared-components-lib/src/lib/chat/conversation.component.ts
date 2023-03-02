@@ -20,14 +20,14 @@ export interface ConversationOptions {
   template: `
     <div class="conversation" *ngIf="this.messages.length > 0">
       <nyhcr-message-group
-        *ngFor="let group of this.groupedMessages"
+        *ngFor="let group of this.groupedMessages; index as i"
         [messages]="this.group"
         [options]="{
           messageType:
             this.group[0].owner.id === this.currentUser.id
               ? 'SENT'
               : 'RECEIVED',
-          bubble: this.options?.bubble,
+          bubble: bubbleOptions(i),
           timestamp: this.options?.timestamp
         }"
       ></nyhcr-message-group>
@@ -60,4 +60,18 @@ export class ConversationComponent {
       return acc;
     }, []);
   }
+
+  bubbleOptions(index: number): MessageBubbleOptions {
+    const last_groups = this.groupedMessages.splice(0, 2);
+    const last_sent = last_groups[0][0].owner.id === this.currentUser.id ? last_groups[0] : last_groups[1];
+    const current = this.groupedMessages[index];
+    const isLatestSent = current[0].id === last_sent[0].id;
+    return {
+      displayOwner: this.options?.bubble?.displayOwner,
+      displayTimestamp: this.options?.bubble?.displayTimestamp,
+      displayStatus: this.options?.bubble?.displayStatus !== undefined ? this.options?.bubble?.displayStatus : isLatestSent ? undefined : false,
+      rounding: this.options?.bubble?.rounding
+    }
+  }
+
 }

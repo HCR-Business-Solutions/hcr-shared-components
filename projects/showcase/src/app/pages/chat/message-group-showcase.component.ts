@@ -38,6 +38,7 @@ import { rand_from_list } from '../../utils/list';
             type="number"
             inputmode="numeric"
             [(ngModel)]="this.numMessages"
+            (ngModelChange)="this.updMessages()"
           />
         </div>
       </div>
@@ -68,16 +69,25 @@ export class MessageGroupShowcaseComponent {
   grouping: MessageGrouping = 'NONE';
   numMessages: number = 3;
 
-  get messages(): Message[] {
+  messages: Message[] = this.genMessages();
+
+  updMessages() {
+    this.messages = this.genMessages();
+  }
+
+  genMessages(): Message[] {
     const message_content_generator = (): string =>
       rand_from_list(harvard_sentences);
+
+    const message_owner_generator = (): MessageUser =>
+      rand_from_list([this.other, this.self]);
 
     return [...Array(this.numMessages)]
       .map((_, index) => {
         return {
           id: `test${index}`,
           content: message_content_generator(),
-          owner: this.isSentMessage ? this.self : this.other,
+          owner: message_owner_generator(),
           timestamp: new Date(),
           status: this.currentStatus,
         };

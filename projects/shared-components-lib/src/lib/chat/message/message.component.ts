@@ -89,11 +89,12 @@ export class MessageComponent {
     return {
       displayOwner: this.options?.bubble?.displayOwner,
       displayTimestamp: this.options?.bubble?.displayTimestamp,
-
+      displayStatus: this.options?.bubble?.displayStatus,
       rounding: {
         radius: this.options?.bubble?.rounding?.radius ?? '0',
         corners,
       },
     };
   }
+
 }
