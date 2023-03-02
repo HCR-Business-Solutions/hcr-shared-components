@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Message } from './types';
 
 @Component({
   selector: 'nyhcr-message-status',
@@ -15,5 +16,5 @@ import { CommonModule } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MessageStatusComponent {
-
+  @Input() message!: Message;
 }

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ConversationComponent } from 'projects/shared-components-lib/src/lib';
+import { ConversationComponent, ConversationOptions } from 'projects/shared-components-lib/src/lib';
 import {
   Message,
   MessageStatus,
@@ -27,6 +27,7 @@ import { rand_from_list } from '../../utils/list';
             type="number"
             inputmode="numeric"
             [(ngModel)]="this.numMessages"
+            (ngModelChange)="updMessages()"
           />
         </div>
       </div>
@@ -53,10 +54,17 @@ export class ConversationShowcaseComponent {
     display: 'Some Sender',
   };
 
+
   currentStatus: MessageStatus = MessageStatus.READ;
   numMessages: number = 10;
 
-  get messages(): Message[] {
+  messages: Message[] = this.genMessages();
+
+  updMessages() {
+    this.messages = this.genMessages();
+  }
+
+  genMessages(): Message[] {
     const message_content_generator = (): string =>
       rand_from_list(harvard_sentences);
 
@@ -76,10 +84,11 @@ export class ConversationShowcaseComponent {
       .reverse();
   }
 
-  get options() {
+  get options(): ConversationOptions {
     return {
       bubble: {
-        displayOwner: true,
+        displayTimestamp: true,
+        displayStatus: false,
         rounding: {
           radius: '0.25rem',
         },

@@ -22,12 +22,12 @@ export interface MessageGroupOptions {
   template: `
     <div class="message-group" *ngIf="this.messages.length > 0">
       <nyhcr-message
-        *ngFor="let message of this.messages; first as isFirst; last as isLast"
+        *ngFor="let message of this.messages; first as isFirst; last as isLast; index as i"
         [message]="message"
         [options]="{
           messageType: this.messageType,
           grouping: this.calcGrouping(isFirst, isLast),
-          bubble: this.options?.bubble,
+          bubble: this.bubbleOptions(i),
           timestamp: this.options?.timestamp
         }"
       ></nyhcr-message>
@@ -61,4 +61,14 @@ export class MessageGroupComponent {
       ? 'START'
       : 'INNER';
   }
+
+  bubbleOptions(index: number): MessageBubbleOptions {
+    return {
+      displayOwner: this.options?.bubble?.displayOwner,
+      displayTimestamp: this.options?.bubble?.displayTimestamp,
+      displayStatus: this.options?.bubble?.displayStatus !== undefined ? this.options?.bubble?.displayStatus : index === 0 ? true : false,
+      rounding: this.options?.bubble?.rounding
+    }
+  }
+
 }
