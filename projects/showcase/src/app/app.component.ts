@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { MessageComponent } from 'projects/shared-components-lib/src/lib';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import { RouterModule } from '@angular/router';
   `,
   styles: [],
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, MessageComponent],
 })
 export class AppComponent {
   title = 'showcase';

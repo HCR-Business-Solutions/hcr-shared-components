@@ -16,4 +16,9 @@ export const ROUTES: Route[] = [
     loadChildren: () =>
       import('./pages/layout/routes').then((mod) => mod.LAYOUT_ROUTES),
   },
+  {
+    path: 'chat',
+    loadChildren: () =>
+      import('./pages/chat/routes').then((mod) => mod.CHAT_ROUTES),
+  },
 ];
