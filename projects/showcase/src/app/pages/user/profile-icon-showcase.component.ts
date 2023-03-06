@@ -52,7 +52,7 @@ import { ProfileIconComponent } from 'projects/shared-components-lib/src/lib';
           [ngStyle]="{ width: size, height: size }"
         >
           <nyhcr-profile-icon
-            imgSrc="https://picsum.photos/200"
+            imgSrc="https://picsum.photos/id/64/200"
           ></nyhcr-profile-icon>
         </div>
       </div>
