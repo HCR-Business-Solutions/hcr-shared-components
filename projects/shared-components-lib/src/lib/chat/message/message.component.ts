@@ -8,6 +8,7 @@ import {
 } from './message-bubble.component';
 import { MessageTimestampOptions } from './message-timestamp.component';
 import { MessageGrouping } from './types/message-grouping';
+import { ProfileIconComponent } from '../../user';
 
 export interface MessageInteractEvent {
   type: 'primary' | 'secondary';
@@ -17,6 +18,7 @@ export interface MessageInteractEvent {
 
 export interface MessageOptions {
   messageType?: MessageType;
+  showUserIcon?: boolean;
   grouping?: MessageGrouping;
   bubble?: MessageBubbleOptions;
   timestamp?: MessageTimestampOptions;
@@ -25,8 +27,14 @@ export interface MessageOptions {
 @Component({
   selector: 'nyhcr-message',
   standalone: true,
-  imports: [CommonModule, MessageBubbleComponent],
+  imports: [CommonModule, MessageBubbleComponent, ProfileIconComponent],
   template: `
+  <div style="display: flex; flex-direction: row; align-items: center; gap:.25rem;">
+    <div *ngIf="this.options?.showUserIcon && !!this.message.owner.icon" style="width: 32px; height: 32px"
+      [style.order]="this.messageType === 'SENT' ? 2 : -1"
+    >
+      <nyhcr-profile-icon [imgSrc]="this.message.owner.icon" />
+    </div>
     <div
       *ngIf="this.message"
       class="message-container"
@@ -39,6 +47,7 @@ export interface MessageOptions {
         [options]="this.bubbleOptions"
         [timestampOptions]="this.options?.timestamp"
       ></nyhcr-message-bubble>
+    </div>
     </div>
   `,
   styles: [
@@ -91,7 +100,7 @@ export class MessageComponent {
       displayTimestamp: this.options?.bubble?.displayTimestamp,
       displayStatus: this.options?.bubble?.displayStatus,
       rounding: {
-        radius: this.options?.bubble?.rounding?.radius ?? '0',
+        radius: this.options?.bubble?.rounding?.radius,
         corners,
       },
     };

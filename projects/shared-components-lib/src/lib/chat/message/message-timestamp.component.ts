@@ -36,7 +36,7 @@ export class MessageTimestampComponent {
       return Math.ceil(days / 7);
     };
 
-    if (this.options) return this.options.format;
+    if (this.options && this.options.format && this.options.format !== 'auto') return this.options.format;
     const sent = this.message.timestamp;
     const now = new Date();
 

@@ -1,7 +1,11 @@
 import {
   Message,
   MessageBubbleOptions,
+  MessageGrouping,
+  MessageOptions,
   MessageStatus,
+  MessageTimestampOptions,
+  MessageType,
   MessageUser,
 } from 'projects/shared-components-lib/src/lib';
 import { Properties, PropertyInfo, PropPack } from '../../../components';
@@ -39,24 +43,109 @@ export const messagePropPack: PropPack = {
 };
 
 export function propsAsMessage(props: Properties, id: string): Message {
+
+  let date = new Date();
+
+  if (props['messageTimestamp']) {
+    date = new Date(props['messageTimestamp'] as string);
+  }
+
   return {
     id,
     content: props['messageContent'] as string,
     status: props['messageStatus'] as MessageStatus,
     owner: props['messageSender'] === 'me' ? userSelf : userOther,
-    timestamp: props['messageTimestamp']
-      ? new Date(props['messageTimestamp'] as string)
-      : new Date(),
+    timestamp: date,
   };
 }
 
-export const bubbleOptionProperties: Properties = {};
-export const bubbleOptionsPropertyInfo: PropertyInfo = {};
+export const messageOptionProperties: Properties = {
+  showAvatar: 'No',
+  messageType: 'SENT',
+  grouping: 'NONE',
+};
+export const messageOptionPropertyInfo: PropertyInfo = {
+  showAvatar: ['Yes', 'No'],
+  messageType: ['SENT', 'RECEIVED'],
+  grouping: ['NONE', 'START', 'INNER', 'END'],
+};
+export const messageOptionPack: PropPack = {
+  properties: messageOptionProperties,
+  info: messageOptionPropertyInfo,
+};
+
+export function propsAsMessageOptions(props: Properties): MessageOptions {
+  return {
+    showUserIcon: props['showAvatar'] === 'Yes',
+    messageType: props['messageType'] as MessageType,
+    grouping: props['grouping'] as MessageGrouping,
+  };
+}
+
+export const bubbleOptionProperties: Properties = {
+  displayOwner: 'No',
+  displayTimestamp: 'No',
+  displayStatus: 'No',
+  roundingRadius: '0.25rem',
+  roundTopLeft: 'Yes',
+  roundTopRight: 'Yes',
+  roundBottomRight: 'Yes',
+  roundBottomLeft: 'Yes',
+  backgroundColor: '',
+  textColor: '',
+  borderColor: '',
+};
+export const bubbleOptionsPropertyInfo: PropertyInfo = {
+  displayOwner: ['Yes', 'No'],
+  displayTimestamp: ['Yes', 'No'],
+  displayStaus: ['Yes', 'No'],
+  roundingRadius: 'string',
+  roundTopLeft: ['Yes', 'No'],
+  roundTopRight: ['Yes', 'No'],
+  roundBottomRight: ['Yes', 'No'],
+  roundBottomLeft: ['Yes', 'No'],
+  backgroundColor: 'string',
+  textColor: 'string',
+  borderColor: 'string',
+};
 export const bubblePropPack: PropPack = {
   properties: bubbleOptionProperties,
   info: bubbleOptionsPropertyInfo,
 };
 
 export function propsAsBubbleOptions(props: Properties): MessageBubbleOptions {
-  return {};
+  return {
+    displayOwner: props['displayOwner'] === 'Yes',
+    displayTimestamp: props['displayTimestamp'] === 'Yes',
+    displayStatus: props['displayStatus'] === 'Yes',
+    rounding: {
+      radius: props['roundingRadius'] as string,
+      corners: {
+        topLeft: props['roundTopLeft'] === 'Yes',
+        topRight: props['roundTopRight'] === 'Yes',
+        bottomRight: props['roundBottomRight'] === 'Yes',
+        bottomLeft: props['roundBottomLeft'] === 'Yes',
+      },
+    },
+    backgroundColor: props['backgroundColor'] as string,
+    textColor: props['textColor'] as string,
+    borderColor: props['borderColor'] as string,
+  };
+}
+
+export const timestampOptionProperties: Properties = {
+  timeFormat: 'auto'
+};
+export const timestampOptionPropInfo: PropertyInfo = {
+  timeFormat: 'string'
+};
+export const timestampPack: PropPack = {
+  properties: timestampOptionProperties,
+  info: timestampOptionPropInfo,
+};
+
+export function propsAsTimestampOptions(props: Properties): MessageTimestampOptions {
+  return {
+    format: props['timeFormat'] as string,
+  }
 }

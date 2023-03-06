@@ -39,7 +39,7 @@ import { rand_from_list } from '../../utils/list';
           [messages]="this.messages"
           [currentUser]="this.self"
           [options]="this.options"
-        ></nyhcr-conversation>
+        />
       </div>
     </div>
   `,

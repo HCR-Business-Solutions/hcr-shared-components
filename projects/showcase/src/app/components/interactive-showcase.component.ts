@@ -23,60 +23,62 @@ export type PropertyEdits = { [key: string]: PropPack };
   template: `
     <div class="flex flex-col md:flex-row items-center justify-center gap-4">
       <div
-        class="w-11/12 md:w-7/12 border border-stone-900 border-opacity-40 rounded-md bg-stone-50 flex flex-col gap-4 p-4"
+        class="w-full md:w-7/12 border border-stone-900 border-opacity-40 rounded-md bg-stone-50 flex flex-col gap-4 py-4"
       >
-        <div class="text-xl text-stone-900">Interactive Properties</div>
-        <div
-          class="flex flex-col w-full p-4 gap-4 border border-stone-900 border-opacity-30 rounded-sm bg-white"
-          *ngFor="let editKey of this.propertyEditKeys"
-        >
-          <div class=>
-            {{ normalizeKey(editKey) }}
-          </div>
+        <div class="text-xl text-stone-900 px-4">Interactive Properties</div>
+        <div class="max-h-[50vh] overflow-auto flex flex-col gap-4 px-2">
           <div
-            *ngFor="let key of this.propertyKeys(editKey)"
-            class="flex gap-2"
-            [class.flex-row]="this.getPropertyType(key, editKey) === 'boolean'"
-            [class.flex-col]="this.getPropertyType(key, editKey) !== 'boolean'"
+            class="flex flex-col w-full p-4 gap-4 border border-stone-900 border-opacity-30 rounded-sm bg-white"
+            *ngFor="let editKey of this.propertyEditKeys"
           >
-            <label
-              [class.order-last]="
-                this.getPropertyType(key, editKey) === 'boolean'
-              "
-              [for]="key"
+            <div class=>
+              {{ normalizeKey(editKey) }}
+            </div>
+            <div
+              *ngFor="let key of this.propertyKeys(editKey)"
+              class="flex gap-2"
+              [class.flex-row]="this.getPropertyType(key, editKey) === 'boolean'"
+              [class.flex-col]="this.getPropertyType(key, editKey) !== 'boolean'"
             >
-              {{ normalizeKey(key) }}
-            </label>
-
-            <ng-container
-              *ngIf="isArray(this.getPropertyType(key, editKey)); else asInput"
-            >
-              <select
-                class="bg-white py-4 px-2 border border-stone-900 border-opacity-40 rounded-md"
-                [id]="key"
-                [(ngModel)]="this.edits[editKey].properties[key]"
+              <label
+                [class.order-last]="
+                  this.getPropertyType(key, editKey) === 'boolean'
+                "
+                [for]="key"
               >
-                <option
-                  *ngFor="let opt of getOptions(key, editKey)"
-                  [value]="opt"
+                {{ normalizeKey(key) }}
+              </label>
+
+              <ng-container
+                *ngIf="isArray(this.getPropertyType(key, editKey)); else asInput"
+              >
+                <select
+                  class="bg-white py-4 px-2 border border-stone-900 border-opacity-40 rounded-md"
+                  [id]="key"
+                  [(ngModel)]="this.edits[editKey].properties[key]"
                 >
-                  {{ opt }}
-                </option>
-              </select>
-            </ng-container>
-            <ng-template #asInput>
-              <input
-                [id]="key"
-                [(ngModel)]="this.edits[editKey].properties[key]"
-                [type]="this.getInputType(key, editKey)"
-                class="bg-white py-4 px-2 border border-stone-900 border-opacity-40 rounded-md"
-              />
-            </ng-template>
+                  <option
+                    *ngFor="let opt of getOptions(key, editKey)"
+                    [value]="opt"
+                  >
+                    {{ opt }}
+                  </option>
+                </select>
+              </ng-container>
+              <ng-template #asInput>
+                <input
+                  [id]="key"
+                  [(ngModel)]="this.edits[editKey].properties[key]"
+                  [type]="this.getInputType(key, editKey)"
+                  class="bg-white py-4 px-2 border border-stone-900 border-opacity-40 rounded-md"
+                />
+              </ng-template>
+            </div>
           </div>
         </div>
       </div>
       <div
-        class="w-11/12 md:flex-grow border border-stone-900 border-opacity-40 rounded-md bg-stone-50 flex flex-col gap-4 p-4"
+        class="w-full md:flex-grow border border-stone-900 border-opacity-40 rounded-md bg-stone-50 flex flex-col gap-4 p-4"
       >
         <ng-content></ng-content>
       </div>
