@@ -8,7 +8,7 @@ import {
 } from 'projects/shared-components-lib/src/lib';
 import { InteractiveShowcaseComponent, PropertyEdits } from '../../components';
 import { MessageDocumentationComponent } from './documentation';
-import { messagePropPack, propsAsMessage } from './shared/message-data';
+import { users, messagePropPack, propsAsMessage, messageOptionPack, propsAsMessageOptions } from './shared/message-data';
 
 @Component({
   standalone: true,
@@ -23,12 +23,12 @@ import { messagePropPack, propsAsMessage } from './shared/message-data';
     <div class="flex flex-col gap-4 p-8">
       <app-message-documentation></app-message-documentation>
       <hr />
-      <div class="px-8">
+      <div class="px-2 md:px-4 lg:px-8">
         <app-interactive-showcase [(edits)]="this.edits">
           <nyhcr-message
             [message]="this.message"
             [options]="this.options"
-          ></nyhcr-message>
+          />
         </app-interactive-showcase>
       </div>
     </div>
@@ -37,15 +37,20 @@ import { messagePropPack, propsAsMessage } from './shared/message-data';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessageShowcaseComponent {
+
+  readonly userSelf = users[0];
+  readonly userOther = users[1];
+
   edits: PropertyEdits = {
     message: messagePropPack,
+    messageOptions: messageOptionPack
   };
 
   get message(): Message {
-    return propsAsMessage(this.edits['message'].properties, 'test message');
+    return propsAsMessage(this.edits['message'].properties, 'example');
   }
 
   get options(): MessageOptions {
-    return {};
+    return propsAsMessageOptions(this.edits['messageOptions'].properties);
   }
 }
