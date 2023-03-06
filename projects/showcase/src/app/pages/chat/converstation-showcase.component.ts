@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ConversationComponent, ConversationOptions } from 'projects/shared-components-lib/src/lib';
+import {
+  ConversationComponent,
+  ConversationOptions,
+} from 'projects/shared-components-lib/src/lib';
 import {
   Message,
   MessageStatus,
@@ -54,8 +57,7 @@ export class ConversationShowcaseComponent {
     display: 'Some Sender',
   };
 
-
-  currentStatus: MessageStatus = MessageStatus.READ;
+  currentStatus: MessageStatus = 'READ';
   numMessages: number = 10;
 
   messages: Message[] = this.genMessages();

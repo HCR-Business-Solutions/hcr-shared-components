@@ -65,7 +65,7 @@ export class MessageGroupShowcaseComponent {
   };
 
   isSentMessage: boolean = false;
-  currentStatus: MessageStatus = MessageStatus.SENT;
+  currentStatus: MessageStatus = 'READ';
   grouping: MessageGrouping = 'NONE';
   numMessages: number = 3;
 
