@@ -11,6 +11,7 @@ import { MessageGrouping } from './message/types/message-grouping';
 
 export interface MessageGroupOptions {
   messageType?: MessageType;
+  showAvatar?: boolean;
   bubble?: MessageBubbleOptions;
   timestamp?: MessageTimestampOptions;
 }
@@ -31,6 +32,7 @@ export interface MessageGroupOptions {
         [message]="message"
         [options]="{
           messageType: this.messageType,
+          showAvatar: this.options?.showAvatar ?? (isLast && this.messageType === 'RECEIVED'),
           grouping: this.calcGrouping(isFirst, isLast),
           bubble: this.bubbleOptions(i),
           timestamp: this.options?.timestamp
@@ -52,6 +54,7 @@ export interface MessageGroupOptions {
 export class MessageGroupComponent {
   @Input() messages: Message[] = [];
   @Input() options?: MessageGroupOptions;
+
 
   get messageType(): MessageType {
     return this.options?.messageType ?? 'SENT';

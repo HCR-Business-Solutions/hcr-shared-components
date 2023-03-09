@@ -75,7 +75,7 @@ export const messageOptionPack: PropPack = {
 
 export function propsAsMessageOptions(props: Properties): MessageOptions {
   return {
-    showUserIcon: props['showAvatar'] === 'Yes',
+    showAvatar: props['showAvatar'] === 'Yes',
     messageType: props['messageType'] as MessageType,
     grouping: props['grouping'] as MessageGrouping,
   };

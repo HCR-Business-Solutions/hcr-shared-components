@@ -3,12 +3,13 @@ import { ConversationShowcaseComponent } from './converstation-showcase.componen
 import { MessageBubbleShowcaseComponent } from './message-bubble-showcase.component';
 import { MessageGroupShowcaseComponent } from './message-group-showcase.component';
 import { MessageShowcaseComponent } from './message-showcase.component';
+import { RootComponent } from './root.component';
 
 export const CHAT_ROUTES: Route[] = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'message',
+    component: RootComponent
   },
   {
     path: 'message-bubble',

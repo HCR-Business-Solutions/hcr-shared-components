@@ -18,7 +18,7 @@ export interface MessageInteractEvent {
 
 export interface MessageOptions {
   messageType?: MessageType;
-  showUserIcon?: boolean;
+  showAvatar?: boolean;
   grouping?: MessageGrouping;
   bubble?: MessageBubbleOptions;
   timestamp?: MessageTimestampOptions;
@@ -30,7 +30,7 @@ export interface MessageOptions {
   imports: [CommonModule, MessageBubbleComponent, ProfileIconComponent],
   template: `
   <div style="display: flex; flex-direction: row; align-items: center; gap:.25rem;">
-    <div *ngIf="this.options?.showUserIcon && !!this.message.owner.icon" style="width: 32px; height: 32px"
+    <div *ngIf="this.showAvatar" style="width: 32px; height: 32px"
       [style.order]="this.messageType === 'SENT' ? 2 : -1"
     >
       <nyhcr-profile-icon [imgSrc]="this.message.owner.icon" />
@@ -40,6 +40,7 @@ export interface MessageOptions {
       class="message-container"
       [class.message-sender]="this.messageType === 'SENT'"
       [class.message-receiver]="this.messageType === 'RECEIVED'"
+      [style.max-width]="this.showAvatar ? 'calc(90% - 32px - 0.25rem)' : '90%'"
     >
       <nyhcr-message-bubble
         [message]="this.message"
@@ -52,7 +53,6 @@ export interface MessageOptions {
   styles: [
     `
       .message-container {
-        max-width: 90%;
         min-width: 2rem;
         width: fit-content;
       }
@@ -68,6 +68,10 @@ export interface MessageOptions {
 export class MessageComponent {
   @Input() message!: Message;
   @Input() options?: MessageOptions;
+
+  get showAvatar(): boolean {
+    return (this.options?.showAvatar ?? false) && (!!this.message.owner.icon);
+  }
 
   get messageType(): MessageType {
     return this.options?.messageType ?? 'SENT';
