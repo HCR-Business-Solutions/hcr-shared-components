@@ -23,7 +23,7 @@ export type PropertyEdits = { [key: string]: PropPack };
   template: `
     <div class="flex flex-col md:flex-row items-center justify-center gap-4">
       <div
-        class="w-full md:w-7/12 border border-stone-900 border-opacity-40 rounded-md bg-stone-50 flex flex-col gap-4 py-4"
+        class="min-w-[47%] border border-stone-900 border-opacity-40 rounded-md bg-stone-50 flex flex-col gap-4 py-4"
       >
         <div class="text-xl text-stone-900 px-4">Interactive Properties</div>
         <div class="max-h-[50vh] overflow-auto flex flex-col gap-4 px-2">
