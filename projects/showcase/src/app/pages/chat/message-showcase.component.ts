@@ -6,44 +6,61 @@ import {
   MessageComponent,
   MessageOptions,
 } from 'projects/shared-components-lib/src/lib';
-import { InteractiveShowcaseComponent, PropertyEdits } from '../../components';
+import {
+  DocumentationDividerComponent,
+  DocumentationSectionComponent,
+  InteractiveShowcaseComponent,
+  PropertyEdits,
+} from '../../components';
 import { MessageDocumentationComponent } from './documentation';
-import { users, messagePropPack, propsAsMessage, messageOptionPack, propsAsMessageOptions } from './shared/message-data';
+import {
+  users,
+  messagePropPack,
+  propsAsMessage,
+  messageOptionPack,
+  propsAsMessageOptions,
+} from './shared/message-data';
 
 @Component({
   standalone: true,
   imports: [
     CommonModule,
     MessageComponent,
-    FormsModule,
-    InteractiveShowcaseComponent,
     MessageDocumentationComponent,
+    InteractiveShowcaseComponent,
+    DocumentationDividerComponent,
+    DocumentationSectionComponent,
   ],
   template: `
-    <div class="flex flex-col gap-4 p-8">
-      <app-message-documentation></app-message-documentation>
-      <hr />
-      <div class="px-2 md:px-4 lg:px-8">
-        <app-interactive-showcase [(edits)]="this.edits">
-          <nyhcr-message
-            [message]="this.message"
-            [options]="this.options"
-          />
-        </app-interactive-showcase>
-      </div>
-    </div>
+  <div class="flex flex-col gap-4 my-4">
+    <app-message-documentation />
+    <app-documentation-divider />
+    <app-documentation-section
+      title="Demo"
+      class="px-4"
+    >
+      <app-interactive-showcase
+        [(edits)]="this.edits"
+        class="px-4"
+      >
+        <nyhcr-message
+          [message]="this.message"
+          [options]="this.options"
+        />
+      </app-interactive-showcase>
+    </app-documentation-section>
+  </div>
   `,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessageShowcaseComponent {
-
   readonly userSelf = users[0];
   readonly userOther = users[1];
 
   edits: PropertyEdits = {
     message: messagePropPack,
-    messageOptions: messageOptionPack
+    messageOptions: messageOptionPack,
   };
 
   get message(): Message {

@@ -4,7 +4,7 @@ export const ROUTES: Route[] = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'user',
+    loadComponent: () => import('./pages/root.component').then((mod) => mod.RootComponent),
   },
   {
     path: 'user',

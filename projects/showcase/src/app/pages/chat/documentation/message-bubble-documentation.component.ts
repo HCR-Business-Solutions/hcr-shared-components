@@ -5,7 +5,6 @@ import {
   DocumentationDividerComponent,
   DocumentationHeaderComponent,
   DocumentationSectionComponent,
-  FakeCodeComponent,
   InputCardComponent,
   InputInfo,
   PaletteComponent,
@@ -16,9 +15,8 @@ import {
   standalone: true,
   imports: [
     CommonModule,
-    FakeCodeComponent,
-    InputCardComponent,
     PaletteComponent,
+    InputCardComponent,
     DocumentationHeaderComponent,
     DocumentationSectionComponent,
     DocumentationDividerComponent,

@@ -33,8 +33,8 @@ import { MessageBubbleDocumentationComponent } from './documentation/message-bub
   imports: [
     CommonModule,
     MessageBubbleComponent,
-    InteractiveShowcaseComponent,
     MessageBubbleDocumentationComponent,
+    InteractiveShowcaseComponent,
     DocumentationDividerComponent,
     DocumentationSectionComponent
   ],

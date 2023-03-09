@@ -34,7 +34,7 @@ import { rand_from_list } from '../../utils/list';
         </app-component-link>
 
         <app-component-link name="Message" [link]="['/', 'chat', 'message']">
-          <nyhcr-message [message]="this.message[0]" />
+          <nyhcr-message [message]="this.message[0]"/>
         </app-component-link>
 
         <app-component-link name="Message Group" [link]="['/', 'chat', 'message-group']">
@@ -60,7 +60,7 @@ export class RootComponent {
   readonly bubble = this.genMessages([this.sent], 1);
   readonly message = this.genMessages([this.sent], 1);
   readonly group = this.genMessages([this.sent, this.sent, this.sent], 3);
-  readonly convo = this.genMessages([this.sent, this.rec, this.sent, this.sent], 4);
+  readonly convo = this.genMessages([this.sent, this.rec, this.rec, this.sent, this.sent], 5);
 
 
   genMessages(userList: MessageUser[], numMessages: number): Message[] {

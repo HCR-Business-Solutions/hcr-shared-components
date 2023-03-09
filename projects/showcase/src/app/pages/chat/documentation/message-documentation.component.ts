@@ -1,39 +1,74 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FakeCodeComponent } from '../../../components';
+import {
+  ConsiderationComponent,
+  DocumentationDividerComponent,
+  DocumentationHeaderComponent,
+  DocumentationSectionComponent,
+  FakeCodeComponent,
+  InputCardComponent,
+  InputInfo,
+} from '../../../components';
 
 @Component({
   selector: 'app-message-documentation',
   standalone: true,
-  imports: [CommonModule, FakeCodeComponent],
+  imports: [
+    CommonModule,
+    InputCardComponent,
+    DocumentationHeaderComponent,
+    DocumentationSectionComponent,
+    DocumentationDividerComponent,
+    ConsiderationComponent,
+  ],
   template: `
-    <div class="flex flex-col gap-2">
-      <h2 class="text-2xl text-stone-900">Message Component</h2>
-      <p>
-        <app-fake-code content="<nyhcr-message />"></app-fake-code>
-      </p>
-      <p>
-        The message component is the lowest data package component provided by
-        the chat component area.<br />
-        This component takes a message object, an optional options object and
-        displays a message using several styled components.
-      </p>
-      <hr />
+  <div class="flex flex-col gap-2 px-4">
+
+    <app-documentation-header
+      title="Message"
+      tag="<nyhcr-message />"
+      type="Styled Layout Component"
+      description="Renders a message to the screen, this component controls minor layout doing with a message"
+    />
+
+    <app-documentation-divider />
+
+    <app-documentation-section title="Inputs">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div
-          class="flex flex-col border border-stone-900 border-opacity-40 rounded-sm bg-stone-50 p-4"
-        >
-          <h3 class="text-xl text-stone-700">Message Object</h3>
-        </div>
-        <div
-          class="flex flex-col border border-stone-900 border-opacity-40 rounded-sm bg-stone-50 p-4"
-        >
-          <h3 class="text-xl text-stone-700">Options Object</h3>
-        </div>
+        <app-input-card *ngFor="let input of this.inputs" [input]="input" />
       </div>
+    </app-documentation-section>
+
+    <app-documentation-divider />
+
+    <app-documentation-section title="Considerations">
+      <app-consideration
+        title="Message Type"
+        description="Message Type will default to SENT when not explicitly set. You can set the value using the options input."
+      />
+    </app-documentation-section>
+
     </div>
   `,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MessageDocumentationComponent {}
+export class MessageDocumentationComponent {
+
+  readonly inputs: InputInfo[] = [
+    {
+      input: 'message',
+      type: 'Message',
+      required: true,
+      description:
+        'The message itself, contains information relating to the message like the content, message owner and other meta data.',
+    },
+    {
+      input: 'options',
+      type: 'MessageOptions',
+      required: false,
+      description: 'Allows for finer control of the Message Component.'
+    }
+  ]
+
+}
