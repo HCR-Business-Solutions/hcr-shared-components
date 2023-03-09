@@ -24,17 +24,24 @@ import {
   timestampPack,
   users,
 } from './shared/message-data';
+import { MessageBubbleDocumentationComponent } from './documentation/message-bubble-documentation.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, MessageBubbleComponent, InteractiveShowcaseComponent],
+  imports: [
+    CommonModule,
+    MessageBubbleComponent,
+    InteractiveShowcaseComponent,
+    MessageBubbleDocumentationComponent,
+  ],
   template: `
-  <div class="">
+  <div class="flex flex-col gap-4">
+    <app-message-bubble-documentation />
+    <hr />
     <app-interactive-showcase
       [(edits)]="this.edits"
     >
       <nyhcr-message-bubble
-        [messageType]="this.messageType"
         [message]="this.message"
         [options]="this.options"
         [timestampOptions]="this.timestampOptions"

@@ -6,11 +6,22 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <code>
-      <pre
-        class="font-mono text-sm h-fit w-fit p-2 bg-stone-50 text-stone-600 border-stone-700 border border-opacity-5"
-        >{{ content }}</pre
-      >
+    <code
+      [ngClass]="{
+        'font-mono text-sm h-fit w-fit p-2 bg-stone-50 text-stone-600 border-stone-700 border border-opacity-5':
+          !this.preFormat
+      }"
+    >
+      <ng-container *ngIf="this.preFormat; else noPre">
+        <pre
+          class="font-mono text-sm h-fit w-fit p-2 bg-stone-50 text-stone-600 border-stone-700 border border-opacity-5"
+          >{{ content }}</pre
+        >
+      </ng-container>
+
+      <ng-template #noPre>
+        {{ content }}
+      </ng-template>
     </code>
   `,
   styles: [],
@@ -18,4 +29,5 @@ import { CommonModule } from '@angular/common';
 })
 export class FakeCodeComponent {
   @Input() content!: string;
+  @Input() preFormat: boolean = false;
 }

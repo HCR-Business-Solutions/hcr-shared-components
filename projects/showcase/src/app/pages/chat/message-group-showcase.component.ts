@@ -98,11 +98,6 @@ export class MessageGroupShowcaseComponent {
   get options(): MessageGroupOptions {
     return {
       messageType: this.isSentMessage ? 'SENT' : 'RECEIVED',
-      bubble: {
-        rounding: {
-          radius: '0.25rem',
-        },
-      },
     };
   }
 }

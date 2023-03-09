@@ -43,7 +43,6 @@ export const messagePropPack: PropPack = {
 };
 
 export function propsAsMessage(props: Properties, id: string): Message {
-
   let date = new Date();
 
   if (props['messageTimestamp']) {
@@ -86,6 +85,7 @@ export const bubbleOptionProperties: Properties = {
   displayOwner: 'No',
   displayTimestamp: 'No',
   displayStatus: 'No',
+  messageType: 'SENT',
   roundingRadius: '0.25rem',
   roundTopLeft: 'Yes',
   roundTopRight: 'Yes',
@@ -99,6 +99,7 @@ export const bubbleOptionsPropertyInfo: PropertyInfo = {
   displayOwner: ['Yes', 'No'],
   displayTimestamp: ['Yes', 'No'],
   displayStaus: ['Yes', 'No'],
+  messageType: ['SENT', 'RECEIVED'],
   roundingRadius: 'string',
   roundTopLeft: ['Yes', 'No'],
   roundTopRight: ['Yes', 'No'],
@@ -118,34 +119,39 @@ export function propsAsBubbleOptions(props: Properties): MessageBubbleOptions {
     displayOwner: props['displayOwner'] === 'Yes',
     displayTimestamp: props['displayTimestamp'] === 'Yes',
     displayStatus: props['displayStatus'] === 'Yes',
-    rounding: {
-      radius: props['roundingRadius'] as string,
-      corners: {
-        topLeft: props['roundTopLeft'] === 'Yes',
-        topRight: props['roundTopRight'] === 'Yes',
-        bottomRight: props['roundBottomRight'] === 'Yes',
-        bottomLeft: props['roundBottomLeft'] === 'Yes',
+    messageType: props['messageType'] as MessageType,
+    styles: {
+      rounding: {
+        radius: props['roundingRadius'] as string,
+        corners: {
+          topLeft: props['roundTopLeft'] === 'Yes',
+          topRight: props['roundTopRight'] === 'Yes',
+          bottomRight: props['roundBottomRight'] === 'Yes',
+          bottomLeft: props['roundBottomLeft'] === 'Yes',
+        },
       },
+      backgroundColor: props['backgroundColor'] as string,
+      textColor: props['textColor'] as string,
+      borderColor: props['borderColor'] as string,
     },
-    backgroundColor: props['backgroundColor'] as string,
-    textColor: props['textColor'] as string,
-    borderColor: props['borderColor'] as string,
   };
 }
 
 export const timestampOptionProperties: Properties = {
-  timeFormat: 'auto'
+  timeFormat: 'auto',
 };
 export const timestampOptionPropInfo: PropertyInfo = {
-  timeFormat: 'string'
+  timeFormat: 'string',
 };
 export const timestampPack: PropPack = {
   properties: timestampOptionProperties,
   info: timestampOptionPropInfo,
 };
 
-export function propsAsTimestampOptions(props: Properties): MessageTimestampOptions {
+export function propsAsTimestampOptions(
+  props: Properties
+): MessageTimestampOptions {
   return {
     format: props['timeFormat'] as string,
-  }
+  };
 }

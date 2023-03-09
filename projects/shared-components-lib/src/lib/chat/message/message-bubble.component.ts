@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MessageStatusComponent } from './message-status.component';
 import {
   MessageTimestampComponent,
-  MessageTimestampOptions
+  MessageTimestampOptions,
 } from './message-timestamp.component';
 import { MessageType } from './types';
 import { Message } from './types/message';
@@ -15,10 +15,7 @@ export interface BubbleCorners {
   bottomLeft: boolean;
 }
 
-export interface MessageBubbleOptions {
-  displayOwner?: boolean;
-  displayTimestamp?: boolean;
-  displayStatus?: boolean;
+export interface BubbleStyles {
   rounding?: {
     radius?: string;
     corners?: Partial<BubbleCorners>;
@@ -26,6 +23,16 @@ export interface MessageBubbleOptions {
   backgroundColor?: string;
   textColor?: string;
   borderColor?: string;
+}
+
+export interface MessageBubbleOptions {
+  displayOwner?: boolean;
+  displayTimestamp?: boolean;
+  displayStatus?: boolean;
+
+  messageType?: MessageType;
+
+  styles?: BubbleStyles;
 }
 
 @Component({
@@ -44,7 +51,6 @@ export interface MessageBubbleOptions {
       [style.background-color]="this.backgroundColor"
       [style.color]="this.textColor"
       [style.border-color]="this.borderColor"
-
     >
       <div class="meta-content" *ngIf="this.metaPresent">
         <div class="owner" *ngIf="this.displayOwner">
@@ -94,19 +100,22 @@ export interface MessageBubbleOptions {
       }
     `,
     `
-    .spacer {
-      flex-grow: 1;
-    }
-    `
+      .spacer {
+        flex-grow: 1;
+      }
+    `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessageBubbleComponent {
   @Input() message!: Message;
-  @Input() messageType: MessageType = 'SENT';
   @Input() options?: MessageBubbleOptions;
 
   @Input() timestampOptions?: MessageTimestampOptions;
+
+  get messageType(): MessageType {
+    return this.options?.messageType ?? 'SENT';
+  }
 
   get displayOwner(): boolean {
     return this.options?.displayOwner ?? this.messageType === 'RECEIVED';
@@ -125,38 +134,48 @@ export class MessageBubbleComponent {
   }
 
   get backgroundColor(): string {
-    if (this.options?.backgroundColor) return this.options.backgroundColor;
-    return this.messageType === 'SENT' ? 'hsla(269, 100%, 92%, 1)' : 'hsla(0, 0%, 100%, 1)';
+    if (this.options?.styles?.backgroundColor)
+      return this.options?.styles?.backgroundColor;
+    return this.messageType === 'SENT'
+      ? 'hsla(269, 100%, 92%, 1)'
+      : 'hsla(0, 0%, 100%, 1)';
   }
 
   get textColor(): string {
-    if (this.options?.textColor) return this.options.textColor;
-    return this.messageType === 'SENT' ? 'hsla(24, 10%, 10%, .95)':  'hsla(24, 10%, 10%, .95)';
+    if (this.options?.styles?.textColor) return this.options.styles.textColor;
+    return this.messageType === 'SENT'
+      ? 'hsla(24, 10%, 10%, .95)'
+      : 'hsla(24, 10%, 10%, .95)';
   }
 
   get borderColor(): string {
-    if (this.options?.borderColor) return this.options.borderColor;
-    return this.messageType === 'SENT' ? 'hsla(269, 100%, 60%, .2)' : 'hsla(24, 10%, 10%, .2)';
+    if (this.options?.styles?.borderColor)
+      return this.options.styles.borderColor;
+    return this.messageType === 'SENT'
+      ? 'hsla(269, 100%, 60%, .2)'
+      : 'hsla(24, 10%, 10%, .2)';
   }
 
   getBorderRadius(corner: 'TL' | 'TR' | 'BR' | 'BL'): string {
     let shouldRound: boolean = false;
-    const radius: string = this.options?.rounding?.radius ?? '0.25rem';
+    const radius: string = this.options?.styles?.rounding?.radius ?? '0.25rem';
     switch (corner) {
       case 'TL':
-        shouldRound = this.options?.rounding?.corners?.topLeft ?? false;
+        shouldRound = this.options?.styles?.rounding?.corners?.topLeft ?? false;
         break;
       case 'TR':
-        shouldRound = this.options?.rounding?.corners?.topRight ?? false;
+        shouldRound =
+          this.options?.styles?.rounding?.corners?.topRight ?? false;
         break;
       case 'BR':
-        shouldRound = this.options?.rounding?.corners?.bottomRight ?? false;
+        shouldRound =
+          this.options?.styles?.rounding?.corners?.bottomRight ?? false;
         break;
       case 'BL':
-        shouldRound = this.options?.rounding?.corners?.bottomLeft ?? false;
+        shouldRound =
+          this.options?.styles?.rounding?.corners?.bottomLeft ?? false;
         break;
     }
     return shouldRound ? radius : '0';
   }
-
 }
