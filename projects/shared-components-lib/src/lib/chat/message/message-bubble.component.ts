@@ -143,17 +143,13 @@ export class MessageBubbleComponent {
 
   get textColor(): string {
     if (this.options?.styles?.textColor) return this.options.styles.textColor;
-    return this.messageType === 'SENT'
-      ? 'hsla(24, 10%, 10%, .95)'
-      : 'hsla(24, 10%, 10%, .95)';
+    return 'hsla(24, 10%, 10%, .95)';
   }
 
   get borderColor(): string {
     if (this.options?.styles?.borderColor)
       return this.options.styles.borderColor;
-    return this.messageType === 'SENT'
-      ? 'hsla(269, 100%, 60%, .2)'
-      : 'hsla(24, 10%, 10%, .2)';
+    return 'hsla(24, 10%, 10%, .2)';
   }
 
   getBorderRadius(corner: 'TL' | 'TR' | 'BR' | 'BL'): string {

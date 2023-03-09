@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProfileIconComponent } from 'projects/shared-components-lib/src/lib';
+import { PaletteComponent } from '../../components';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ProfileIconComponent],
+  imports: [CommonModule, ProfileIconComponent, PaletteComponent],
   template: `
     <div class="flex flex-col gap-6 p-4">
       <h1 class="text-3xl">Profile Icon</h1>
@@ -79,15 +80,7 @@ import { ProfileIconComponent } from 'projects/shared-components-lib/src/lib';
       <div
         class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 w-full"
       >
-        <div
-          *ngFor="let color of this.colors"
-          class="h-32 w-32 text-center text-lg font-semibold"
-          style="background-color: {{ color }}; color: {{
-            this.getTextColor(color)
-          }}"
-        >
-          {{ color }}
-        </div>
+        <app-palette *ngFor="let color of this.colors" [color]="color" />
       </div>
       <p>
         When a <code>textColor</code> is not passed, the code will chose a text

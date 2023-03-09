@@ -35,11 +35,12 @@ import { MessageBubbleDocumentationComponent } from './documentation/message-bub
     MessageBubbleDocumentationComponent,
   ],
   template: `
-  <div class="flex flex-col gap-4">
+  <div class="flex flex-col gap-4 my-4">
     <app-message-bubble-documentation />
-    <hr />
+    <hr class="mx-6 md:mx-12 lg:mx-20 xl:mx-28"/>
     <app-interactive-showcase
       [(edits)]="this.edits"
+      class="px-4"
     >
       <nyhcr-message-bubble
         [message]="this.message"
@@ -47,7 +48,7 @@ import { MessageBubbleDocumentationComponent } from './documentation/message-bub
         [timestampOptions]="this.timestampOptions"
        />
     </app-interactive-showcase>
-</div>
+  </div>
   `,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
