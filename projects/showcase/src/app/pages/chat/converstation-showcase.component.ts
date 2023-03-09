@@ -87,14 +87,6 @@ export class ConversationShowcaseComponent {
   }
 
   get options(): ConversationOptions {
-    return {
-      bubble: {
-        displayTimestamp: true,
-        displayStatus: false,
-        rounding: {
-          radius: '0.25rem',
-        },
-      },
-    };
+    return {};
   }
 }

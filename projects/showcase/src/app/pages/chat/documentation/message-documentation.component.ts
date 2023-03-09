@@ -18,6 +18,7 @@ import { FakeCodeComponent } from '../../../components';
         This component takes a message object, an optional options object and
         displays a message using several styled components.
       </p>
+      <hr />
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div
           class="flex flex-col border border-stone-900 border-opacity-40 rounded-sm bg-stone-50 p-4"

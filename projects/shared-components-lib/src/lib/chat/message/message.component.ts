@@ -43,7 +43,6 @@ export interface MessageOptions {
     >
       <nyhcr-message-bubble
         [message]="this.message"
-        [messageType]="this.messageType"
         [options]="this.bubbleOptions"
         [timestampOptions]="this.options?.timestamp"
       ></nyhcr-message-bubble>
@@ -93,17 +92,19 @@ export class MessageComponent {
 
   get bubbleOptions(): MessageBubbleOptions {
     const corners =
-      this.options?.bubble?.rounding?.corners ?? this.cornerConfig;
+      this.options?.bubble?.styles?.rounding?.corners ?? this.cornerConfig;
 
     return {
       displayOwner: this.options?.bubble?.displayOwner,
       displayTimestamp: this.options?.bubble?.displayTimestamp,
       displayStatus: this.options?.bubble?.displayStatus,
-      rounding: {
-        radius: this.options?.bubble?.rounding?.radius,
-        corners,
+      messageType: this.messageType,
+      styles: {
+        rounding: {
+          radius: this.options?.bubble?.styles?.rounding?.radius,
+          corners,
+        },
       },
     };
   }
-
 }
