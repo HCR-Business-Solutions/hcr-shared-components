@@ -12,6 +12,7 @@ import { MessageGrouping } from './message/types/message-grouping';
 export interface MessageGroupOptions {
   messageType?: MessageType;
   showAvatar?: boolean;
+  offsetAvatar?: boolean;
   bubble?: MessageBubbleOptions;
   timestamp?: MessageTimestampOptions;
 }
@@ -32,6 +33,7 @@ export interface MessageGroupOptions {
         [message]="message"
         [options]="{
           messageType: this.messageType,
+          offsetAvatar: this.options?.offsetAvatar ?? (!isLast && this.messageType === 'RECEIVED') && this.hasAvatar,
           showAvatar: this.options?.showAvatar ?? (isLast && this.messageType === 'RECEIVED'),
           grouping: this.calcGrouping(isFirst, isLast),
           bubble: this.bubbleOptions(i),
@@ -58,6 +60,10 @@ export class MessageGroupComponent {
 
   get messageType(): MessageType {
     return this.options?.messageType ?? 'SENT';
+  }
+
+  get hasAvatar(): boolean {
+    return !!this.messages[0].owner.icon;
   }
 
   public calcGrouping(isFirst: boolean, isLast: boolean): MessageGrouping {

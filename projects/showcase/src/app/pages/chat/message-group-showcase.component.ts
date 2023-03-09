@@ -13,6 +13,7 @@ import {
 import { MessageGrouping } from 'projects/shared-components-lib/src/lib/chat/message/types/message-grouping';
 import { harvard_sentences } from '../../data/harvard-sentences';
 import { rand_from_list } from '../../utils/list';
+import { users } from './shared/message-data';
 
 @Component({
   standalone: true,
@@ -54,15 +55,10 @@ import { rand_from_list } from '../../utils/list';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessageGroupShowcaseComponent {
-  readonly self: MessageUser = {
-    id: 'self',
-    display: 'Tester ME',
-  };
 
-  readonly other: MessageUser = {
-    id: 'other',
-    display: 'Some Sender',
-  };
+  messageUsers = [...users] as MessageUser[];
+  sent = users[0];
+  rec = users[1]
 
   isSentMessage: boolean = false;
   currentStatus: MessageStatus = 'READ';
@@ -80,7 +76,7 @@ export class MessageGroupShowcaseComponent {
       rand_from_list(harvard_sentences);
 
     const message_owner_generator = (): MessageUser =>
-      rand_from_list([this.other, this.self]);
+      rand_from_list(this.isSentMessage ? [this.sent] : [this.rec]);
 
     return [...Array(this.numMessages)]
       .map((_, index) => {
