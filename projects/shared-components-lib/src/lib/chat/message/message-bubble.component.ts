@@ -51,6 +51,7 @@ export interface MessageBubbleOptions {
       [style.background-color]="this.backgroundColor"
       [style.color]="this.textColor"
       [style.border-color]="this.borderColor"
+      [style.text-align]="'start'"
     >
       <div class="meta-content" *ngIf="this.metaPresent">
         <div class="owner" *ngIf="this.displayOwner">

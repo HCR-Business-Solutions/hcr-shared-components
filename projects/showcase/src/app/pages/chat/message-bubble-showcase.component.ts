@@ -10,6 +10,8 @@ import {
   MessageUser,
 } from 'projects/shared-components-lib/src/lib';
 import {
+  DocumentationDividerComponent,
+  DocumentationSectionComponent,
   InteractiveShowcaseComponent,
   Properties,
   PropertyEdits,
@@ -33,21 +35,28 @@ import { MessageBubbleDocumentationComponent } from './documentation/message-bub
     MessageBubbleComponent,
     InteractiveShowcaseComponent,
     MessageBubbleDocumentationComponent,
+    DocumentationDividerComponent,
+    DocumentationSectionComponent
   ],
   template: `
   <div class="flex flex-col gap-4 my-4">
     <app-message-bubble-documentation />
-    <hr class="mx-6 md:mx-12 lg:mx-20 xl:mx-28"/>
-    <app-interactive-showcase
-      [(edits)]="this.edits"
+    <app-documentation-divider />
+    <app-documentation-section
+      title="Demo"
       class="px-4"
     >
-      <nyhcr-message-bubble
-        [message]="this.message"
-        [options]="this.options"
-        [timestampOptions]="this.timestampOptions"
-       />
-    </app-interactive-showcase>
+      <app-interactive-showcase
+        [(edits)]="this.edits"
+        class="px-4"
+      >
+        <nyhcr-message-bubble
+          [message]="this.message"
+          [options]="this.options"
+          [timestampOptions]="this.timestampOptions"
+        />
+      </app-interactive-showcase>
+    </app-documentation-section>
   </div>
   `,
   styles: [],
