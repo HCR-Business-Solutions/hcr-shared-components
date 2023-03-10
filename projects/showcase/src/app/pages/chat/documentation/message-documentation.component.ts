@@ -28,7 +28,7 @@ import {
       title="Message"
       tag="<nyhcr-message />"
       type="Styled Layout Component"
-      description="Renders a message to the screen, this component controls minor layout doing with a message"
+      description="Renders a message to the screen, this component predominately controls the layout of a single message."
     />
 
     <app-documentation-divider />
@@ -46,6 +46,22 @@ import {
         title="Message Type"
         description="Message Type will default to SENT when not explicitly set. You can set the value using the options input."
       />
+      <app-consideration
+        title="Message Alignment"
+        description="When Message type is SENT the message will be alligned to the right of the container, and when RECEIVED the message will be aligned to the left."
+      />
+      <app-consideration
+        title="Avatar"
+        description="Avatars are optionally rendered based on the showAvatar option. Avatars will be rendered on the 'side' the message is aligned to, 32px + 0.25rem space is allocated for avatars. If you would like to have this space without an avatar you can use the offsetAvatar property in the options."
+      />
+      <app-consideration
+        title="Message Grouping"
+        description="Grouping describes how messages will be rounded, this is to create a more conitinuous feel. The default value is NONE but can be overridden in the options."
+      />
+      <app-consideration
+        title="Deep Options"
+        description="In addition to options for the message itself, you can also access options for all deeper components (message bubble & timestamp), you can set these using the message option object."
+      />
     </app-documentation-section>
 
     </div>
@@ -54,7 +70,6 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessageDocumentationComponent {
-
   readonly inputs: InputInfo[] = [
     {
       input: 'message',
@@ -67,8 +82,7 @@ export class MessageDocumentationComponent {
       input: 'options',
       type: 'MessageOptions',
       required: false,
-      description: 'Allows for finer control of the Message Component.'
-    }
-  ]
-
+      description: 'Allows for finer control of the Message Component.',
+    },
+  ];
 }

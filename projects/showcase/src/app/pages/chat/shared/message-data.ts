@@ -13,12 +13,14 @@ import { Properties, PropertyInfo, PropPack } from '../../../components';
 export const userSelf: MessageUser = {
   id: 'self',
   display: 'Me',
+  displayShort: 'ME',
   icon: 'https://picsum.photos/id/63/200',
 };
 
 export const userOther: MessageUser = {
   id: 'other',
   display: 'Sara Adams',
+  displayShort: 'SA',
   icon: 'https://picsum.photos/id/64/200',
 };
 

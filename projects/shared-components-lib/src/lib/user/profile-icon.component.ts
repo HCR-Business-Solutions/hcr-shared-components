@@ -23,7 +23,10 @@ import { NgIf } from '@angular/common';
         alt="user profile image"
         class="profile-icon-image"
       />
-      <div class="profile-icon-text-container" *ngIf="this.userText">
+      <div
+        class="profile-icon-text-container"
+        *ngIf="this.userText && !this.imgSrc"
+      >
         <svg viewBox="0 0 100 100">
           <text
             class="profile-icon-text"

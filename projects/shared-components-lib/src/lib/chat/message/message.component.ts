@@ -34,7 +34,12 @@ export interface MessageOptions {
     <div *ngIf="this.showAvatar || this.offsetAvatar" style="width: 32px; height: 32px"
       [style.order]="this.messageType === 'SENT' ? 2 : -1"
     >
-      <nyhcr-profile-icon [imgSrc]="this.message.owner.icon" *ngIf="this.showAvatar" />
+      <nyhcr-profile-icon
+      [imgSrc]="this.message.owner.icon"
+      [userText]="this.message.owner.displayShort"
+      [backgroundColor]="this.message.owner.preferredColor"
+      *ngIf="this.showAvatar"
+      />
     </div>
     <div
       *ngIf="this.message"
@@ -75,7 +80,10 @@ export class MessageComponent {
   }
 
   get showAvatar(): boolean {
-    return (this.options?.showAvatar ?? false) && (!!this.message.owner.icon);
+    return (
+      (this.options?.showAvatar ?? false) &&
+      (!!this.message.owner.icon || !!this.message.owner.displayShort)
+    );
   }
 
   get messageType(): MessageType {
