@@ -74,7 +74,7 @@ export class ConversationDocumentationComponent {
       type: 'MessageUser',
       required: true,
       description:
-        'The MessageUser information of the CURRENT user, this will be used to determine messageTypes',
+        'The MessageUser information of the CURRENT user, this will be used to determine Message Types.',
     },
     {
       input: 'options',
