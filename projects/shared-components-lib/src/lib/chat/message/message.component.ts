@@ -10,11 +10,6 @@ import { MessageTimestampOptions } from './message-timestamp.component';
 import { MessageGrouping } from './types/message-grouping';
 import { ProfileIconComponent } from '../../user';
 
-export interface MessageInteractEvent {
-  type: 'primary' | 'secondary';
-  message: Message;
-  event: MouseEvent;
-}
 
 export interface MessageOptions {
   messageType?: MessageType;

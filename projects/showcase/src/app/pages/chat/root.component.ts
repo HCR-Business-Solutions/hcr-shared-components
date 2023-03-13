@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ComponentLinkComponent } from '../../components';
+import { ComponentLinkComponent, FakeCodeComponent } from '../../components';
 import {
   ConversationComponent,
   Message,
@@ -22,7 +22,8 @@ import { rand_from_list } from '../../utils/list';
     MessageBubbleComponent,
     MessageComponent,
     MessageGroupComponent,
-    ConversationComponent
+    ConversationComponent,
+    FakeCodeComponent
   ],
   template: `
     <div class="p-4 flex flex-col">
@@ -43,6 +44,10 @@ import { rand_from_list } from '../../utils/list';
 
         <app-component-link name="Conversation" [link]="['/', 'chat', 'conversation']">
           <nyhcr-conversation [messages]="this.convo" [currentUser]="this.sent" />
+        </app-component-link>
+
+        <app-component-link name="Chat Types" [link]="['/', 'chat', 'types']">
+          <app-fake-code content="Chat Types" />
         </app-component-link>
       </div>
 

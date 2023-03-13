@@ -8,6 +8,11 @@ import {
 import { MessageType } from './types';
 import { Message } from './types/message';
 
+export interface BubbleRounding {
+  radius?: string;
+  corners?: Partial<BubbleCorners>;
+}
+
 export interface BubbleCorners {
   topLeft: boolean;
   topRight: boolean;
@@ -16,10 +21,7 @@ export interface BubbleCorners {
 }
 
 export interface BubbleStyles {
-  rounding?: {
-    radius?: string;
-    corners?: Partial<BubbleCorners>;
-  };
+  rounding?: BubbleRounding;
   backgroundColor?: string;
   textColor?: string;
   borderColor?: string;

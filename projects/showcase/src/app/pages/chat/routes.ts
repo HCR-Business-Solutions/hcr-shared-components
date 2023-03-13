@@ -4,6 +4,7 @@ import { MessageBubbleShowcaseComponent } from './message-bubble-showcase.compon
 import { MessageGroupShowcaseComponent } from './message-group-showcase.component';
 import { MessageShowcaseComponent } from './message-showcase.component';
 import { RootComponent } from './root.component';
+import { TypesComponent } from './types.component';
 
 export const CHAT_ROUTES: Route[] = [
   {
@@ -27,4 +28,8 @@ export const CHAT_ROUTES: Route[] = [
     path: 'conversation',
     component: ConversationShowcaseComponent,
   },
+  {
+    path: 'types',
+    component: TypesComponent
+  }
 ];
