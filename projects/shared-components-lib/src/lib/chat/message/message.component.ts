@@ -35,10 +35,10 @@ export interface MessageOptions {
       [style.order]="this.messageType === 'SENT' ? 2 : -1"
     >
       <nyhcr-profile-icon
-      [imgSrc]="this.message.owner.icon"
-      [userText]="this.message.owner.displayShort"
-      [backgroundColor]="this.message.owner.preferredColor"
-      *ngIf="this.showAvatar"
+        [imgSrc]="this.message.owner.icon"
+        [userText]="this.message.owner.displayShort"
+        [backgroundColor]="this.message.owner.preferredColor"
+        *ngIf="this.showAvatar"
       />
     </div>
     <div
