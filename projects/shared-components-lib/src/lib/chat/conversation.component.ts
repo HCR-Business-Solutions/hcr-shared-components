@@ -9,6 +9,8 @@ import {
 import { MessageGroupComponent } from './message-group.component';
 
 export interface ConversationOptions {
+  showAvatar?: boolean;
+  offsetAvatar?: boolean;
   bubble?: MessageBubbleOptions;
   timestamp?: MessageTimestampOptions;
 }
@@ -28,7 +30,9 @@ export interface ConversationOptions {
               ? 'SENT'
               : 'RECEIVED',
           bubble: bubbleOptions(i),
-          timestamp: this.options?.timestamp
+          timestamp: this.options?.timestamp,
+          showAvatar: this.options?.showAvatar,
+          offsetAvatar: this.options?.offsetAvatar
         }"
       ></nyhcr-message-group>
     </div>

@@ -23,6 +23,10 @@ export interface BubbleStyles {
   backgroundColor?: string;
   textColor?: string;
   borderColor?: string;
+  borderStyle?: string;
+  borderWidth?: string;
+  padding?: string;
+  textAlign?: string;
 }
 
 export interface MessageBubbleOptions {
@@ -51,7 +55,11 @@ export interface MessageBubbleOptions {
       [style.background-color]="this.backgroundColor"
       [style.color]="this.textColor"
       [style.border-color]="this.borderColor"
-      [style.text-align]="'start'"
+      [style.border-style]="this.options?.styles?.borderStyle ?? 'solid'"
+      [style.border-width]="this.options?.styles?.borderWidth ?? '1px'"
+      [style.text-align]="this.options?.styles?.textAlign ?? 'start'"
+      [style.padding]="this.options?.styles?.padding ?? '0.75rem'"
+      style="overflow:hidden;"
     >
       <div class="meta-content" *ngIf="this.metaPresent">
         <div class="owner" *ngIf="this.displayOwner">
@@ -73,14 +81,6 @@ export interface MessageBubbleOptions {
     </div>
   `,
   styles: [
-    `
-      .message-bubble-container {
-        overflow: hidden;
-        padding: 0.75rem;
-        border-width: 1px;
-        border-style: solid;
-      }
-    `,
     `
       .message-content {
         overlow-wrap: break-word;

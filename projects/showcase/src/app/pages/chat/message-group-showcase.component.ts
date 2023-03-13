@@ -11,89 +11,106 @@ import {
   MessageUser,
 } from 'projects/shared-components-lib/src/lib/chat/message/types';
 import { MessageGrouping } from 'projects/shared-components-lib/src/lib/chat/message/types/message-grouping';
+import {
+  DocumentationDividerComponent,
+  DocumentationSectionComponent,
+  InteractiveShowcaseComponent,
+  PropertyEdits,
+} from '../../components';
 import { harvard_sentences } from '../../data/harvard-sentences';
 import { rand_from_list } from '../../utils/list';
-import { users } from './shared/message-data';
+import { MessageGroupDocumentationComponent } from './documentation';
+import {
+  messageGroupOptionsPack,
+  propsAsMessageGroupOptions,
+  users,
+} from './shared/message-data';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, MessageGroupComponent, FormsModule],
+  imports: [
+    CommonModule,
+    MessageGroupComponent,
+    MessageGroupDocumentationComponent,
+    DocumentationDividerComponent,
+    DocumentationSectionComponent,
+    InteractiveShowcaseComponent,
+  ],
   template: `
-    <div
-      class="m-8 p-4 flex flex-col md:flex-row md:items-center md:justify-center gap-4"
+    <div class="flex flex-col gap-4 my-4" *ngIf="this.edits">
+    <app-message-group-documentation />
+    <app-documentation-divider />
+    <app-documentation-section
+      title="Demo"
+      class="px-4"
     >
-      <div
-        class="w-11/12 md:w-2/3 flex flex-col gap-4 border border-stone-900 border-opacity-40 p-8 rounded-lg"
+      <app-interactive-showcase
+        [edits]="this.edits"
+        (editsChange)="this.handleEditsChange($event)"
+        class="px-4"
       >
-        <div class="flex flex-row gap-2">
-          <input
-            id="senderSwitch"
-            type="checkbox"
-            [(ngModel)]="this.isSentMessage"
-          />
-          <label for="senderSwitch">Is Sent Messages</label>
-        </div>
-        <div class="flex flex-col gap-2">
-          <input
-            id="numMessages"
-            type="number"
-            inputmode="numeric"
-            [(ngModel)]="this.numMessages"
-            (ngModelChange)="this.updMessages()"
-          />
-        </div>
-      </div>
-      <div class="flex-grow border border-stone-900 p-6">
         <nyhcr-message-group
           [messages]="this.messages"
           [options]="this.options"
-        ></nyhcr-message-group>
-      </div>
-    </div>
+        />
+      </app-interactive-showcase>
+    </app-documentation-section>
+  </div>
   `,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessageGroupShowcaseComponent {
-
   messageUsers = [...users] as MessageUser[];
   sent = users[0];
-  rec = users[1]
+  rec = users[1];
 
-  isSentMessage: boolean = false;
-  currentStatus: MessageStatus = 'READ';
-  grouping: MessageGrouping = 'NONE';
-  numMessages: number = 3;
+  public edits: PropertyEdits = {
+    demo: {
+      properties: {
+        messageCount: 3,
+      },
+      info: {
+        messageCount: 'number',
+      },
+    },
+    messageGroupOptions: messageGroupOptionsPack,
+  };
 
   messages: Message[] = this.genMessages();
 
-  updMessages() {
+  public handleEditsChange(editChange: PropertyEdits): void {
+    this.edits = editChange;
     this.messages = this.genMessages();
   }
 
   genMessages(): Message[] {
+    const count = this.edits
+      ? (this.edits?.['demo'].properties['messageCount'] as number) ?? 3
+      : 3;
+
     const message_content_generator = (): string =>
       rand_from_list(harvard_sentences);
 
     const message_owner_generator = (): MessageUser =>
-      rand_from_list(this.isSentMessage ? [this.sent] : [this.rec]);
+      rand_from_list(this.messageUsers);
 
-    return [...Array(this.numMessages)]
+    return [...Array(count)]
       .map((_, index) => {
         return {
           id: `test${index}`,
           content: message_content_generator(),
           owner: message_owner_generator(),
           timestamp: new Date(),
-          status: this.currentStatus,
+          status: 'READ' as MessageStatus,
         };
       })
       .reverse();
   }
 
   get options(): MessageGroupOptions {
-    return {
-      messageType: this.isSentMessage ? 'SENT' : 'RECEIVED',
-    };
+    return propsAsMessageGroupOptions(
+      this.edits['messageGroupOptions'].properties
+    );
   }
 }

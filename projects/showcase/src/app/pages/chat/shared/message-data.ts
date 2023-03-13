@@ -2,6 +2,7 @@ import {
   Message,
   MessageBubbleOptions,
   MessageGrouping,
+  MessageGroupOptions,
   MessageOptions,
   MessageStatus,
   MessageTimestampOptions,
@@ -156,4 +157,32 @@ export function propsAsTimestampOptions(
   return {
     format: props['timeFormat'] as string,
   };
+}
+
+export const messageGroupOptionsProperties: Properties = {
+  messageType: 'RECEIVED',
+  showAvatar: '',
+  offsetAvatar: '',
+}
+
+export const messageGroupOptionsPropInfo: PropertyInfo = {
+  messageType: ['SENT', 'RECEIVED'],
+  showAvatar: ['', 'YES', 'NO'],
+  offsetAvatar: ['', 'YES', 'NO']
+}
+
+export const messageGroupOptionsPack: PropPack = {
+  properties: messageGroupOptionsProperties,
+  info: messageGroupOptionsPropInfo,
+}
+
+export function propsAsMessageGroupOptions(
+  props: Properties
+): MessageGroupOptions {
+  return {
+    messageType: props['messageType'] as MessageType ?? 'SENT',
+    showAvatar: props['showAvatar'] ? props['showAvatar'] === 'YES' : undefined,
+    offsetAvatar: props['offsetAvatar'] ? props['offsetAvatar'] === 'YES' : undefined,
+
+  }
 }
