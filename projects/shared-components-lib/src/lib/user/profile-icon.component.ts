@@ -13,25 +13,24 @@ import { NgIf } from '@angular/common';
   template: `
     <div
       class="profile-icon-container"
-      [style]="{
-        backgroundColor: this.backgroundColor ?? '#fefefe'
-      }"
+      [style.background-color]="this.backgroundColor ?? '#fefefe' "
+      style="position:relative;isolation:isolate"
     >
       <img
         *ngIf="this.imgSrc"
         [src]="this.imgSrc"
-        alt="user profile image"
         class="profile-icon-image"
+        style="z-index:20"
       />
       <div
         class="profile-icon-text-container"
-        *ngIf="this.userText && !this.imgSrc"
+        style="z-index:10;"
       >
         <svg viewBox="0 0 100 100">
           <text
             class="profile-icon-text"
-            [style]="{ fill: this.textColor, 'font-size': '200%' }"
-            x="50%"
+            [style]="{ fill: this.textColor, 'font-size': '250%' }"
+            x="49%"
             y="61%"
             text-anchor="middle"
           >

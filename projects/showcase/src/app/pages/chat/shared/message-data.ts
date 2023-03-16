@@ -16,6 +16,7 @@ export const userSelf: MessageUser = {
   display: 'Me',
   displayShort: 'ME',
   icon: 'https://picsum.photos/id/63/200',
+  preferredColor: '#5DB07D'
 };
 
 export const userOther: MessageUser = {
@@ -23,6 +24,7 @@ export const userOther: MessageUser = {
   display: 'Sara Adams',
   displayShort: 'SA',
   icon: 'https://picsum.photos/id/64/200',
+  preferredColor: '#9C58CF'
 };
 
 export const users = [userSelf, userOther] as const;
