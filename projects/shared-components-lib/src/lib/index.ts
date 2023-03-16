@@ -1,5 +1,5 @@
 export * from './chat';
 export * from './icons';
-export * from './toolbar';
+export * from './layout';
 export * from './menu';
 export * from './user';
