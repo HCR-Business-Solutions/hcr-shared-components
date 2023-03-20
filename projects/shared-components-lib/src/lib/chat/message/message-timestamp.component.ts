@@ -1,10 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { Message } from './types';
-
-export interface MessageTimestampOptions {
-  format: string;
-}
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Message, MessageTimestampOptions } from './types';
 
 @Component({
   selector: 'nyhcr-message-timestamp',
@@ -36,7 +32,8 @@ export class MessageTimestampComponent {
       return Math.ceil(days / 7);
     };
 
-    if (this.options && this.options.format && this.options.format !== 'auto') return this.options.format;
+    if (this.options && this.options.format && this.options.format !== 'auto')
+      return this.options.format;
     const sent = this.message.timestamp;
     const now = new Date();
 

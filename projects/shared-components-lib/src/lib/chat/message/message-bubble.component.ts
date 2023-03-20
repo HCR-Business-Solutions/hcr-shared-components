@@ -1,45 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MessageStatusComponent } from './message-status.component';
-import {
-  MessageTimestampComponent,
-  MessageTimestampOptions,
-} from './message-timestamp.component';
-import { MessageType } from './types';
-import { Message } from './types/message';
-
-export interface BubbleRounding {
-  radius?: string;
-  corners?: Partial<BubbleCorners>;
-}
-
-export interface BubbleCorners {
-  topLeft: boolean;
-  topRight: boolean;
-  bottomRight: boolean;
-  bottomLeft: boolean;
-}
-
-export interface BubbleStyles {
-  rounding?: BubbleRounding;
-  backgroundColor?: string;
-  textColor?: string;
-  borderColor?: string;
-  borderStyle?: string;
-  borderWidth?: string;
-  padding?: string;
-  textAlign?: string;
-}
-
-export interface MessageBubbleOptions {
-  displayOwner?: boolean;
-  displayTimestamp?: boolean;
-  displayStatus?: boolean;
-
-  messageType?: MessageType;
-
-  styles?: BubbleStyles;
-}
+import { MessageTimestampComponent } from './message-timestamp.component';
+import { MessageBubbleOptions, MessageType, Message, MessageTimestampOptions } from './types';
 
 @Component({
   selector: 'nyhcr-message-bubble',

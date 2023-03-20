@@ -1,5 +1,5 @@
-import { MessageUser } from './message-user';
 import { MessageStatus } from './message-status';
+import { MessageUser } from './message-user';
 
 export interface Message {
   id: string;

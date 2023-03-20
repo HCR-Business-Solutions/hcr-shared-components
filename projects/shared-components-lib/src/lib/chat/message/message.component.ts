@@ -1,24 +1,15 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Message, MessageType } from './types';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ProfileIconComponent } from '../../user';
+import { MessageBubbleComponent } from './message-bubble.component';
 import {
   BubbleCorners,
-  MessageBubbleComponent,
+  Message,
   MessageBubbleOptions,
-} from './message-bubble.component';
-import { MessageTimestampOptions } from './message-timestamp.component';
-import { MessageGrouping } from './types/message-grouping';
-import { ProfileIconComponent } from '../../user';
-
-
-export interface MessageOptions {
-  messageType?: MessageType;
-  showAvatar?: boolean;
-  offsetAvatar?: boolean;
-  grouping?: MessageGrouping;
-  bubble?: MessageBubbleOptions;
-  timestamp?: MessageTimestampOptions;
-}
+  MessageGrouping,
+  MessageOptions,
+  MessageType
+} from './types';
 
 @Component({
   selector: 'nyhcr-message',

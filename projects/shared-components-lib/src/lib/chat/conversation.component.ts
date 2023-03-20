@@ -1,19 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  Message,
-  MessageBubbleOptions,
-  MessageTimestampOptions,
-  MessageUser,
-} from './message';
+import { Message, MessageUser, ConversationOptions, MessageBubbleOptions } from './message';
 import { MessageGroupComponent } from './message-group.component';
 
-export interface ConversationOptions {
-  showAvatar?: boolean;
-  offsetAvatar?: boolean;
-  bubble?: MessageBubbleOptions;
-  timestamp?: MessageTimestampOptions;
-}
 
 @Component({
   selector: 'nyhcr-conversation',

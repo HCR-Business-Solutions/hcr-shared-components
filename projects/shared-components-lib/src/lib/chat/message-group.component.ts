@@ -1,21 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  Message,
-  MessageBubbleOptions,
-  MessageComponent,
-  MessageTimestampOptions,
-  MessageType,
-} from './message';
-import { MessageGrouping } from './message/types/message-grouping';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-export interface MessageGroupOptions {
-  messageType?: MessageType;
-  showAvatar?: boolean;
-  offsetAvatar?: boolean;
-  bubble?: MessageBubbleOptions;
-  timestamp?: MessageTimestampOptions;
-}
+import { MessageComponent } from './message/message.component';
+import {
+  Message, MessageBubbleOptions, MessageGroupOptions,
+  MessageType
+} from './message/types';
+import { MessageGrouping } from './message/types/message-grouping';
 
 @Component({
   selector: 'nyhcr-message-group',
@@ -33,8 +24,13 @@ export interface MessageGroupOptions {
         [message]="message"
         [options]="{
           messageType: this.messageType,
-          offsetAvatar: this.options?.offsetAvatar ?? (!isLast && this.messageType === 'RECEIVED') && this.hasAvatar,
-          showAvatar: this.options?.showAvatar ?? (isLast && this.messageType === 'RECEIVED'),
+          offsetAvatar:
+            (this.options?.offsetAvatar ?? !isLast) &&
+            this.messageType === 'RECEIVED' &&
+            this.hasAvatar,
+          showAvatar:
+            (this.options?.showAvatar ?? isLast) &&
+            this.messageType === 'RECEIVED',
           grouping: this.calcGrouping(isFirst, isLast),
           bubble: this.bubbleOptions(i),
           timestamp: this.options?.timestamp
@@ -56,7 +52,6 @@ export interface MessageGroupOptions {
 export class MessageGroupComponent {
   @Input() messages: Message[] = [];
   @Input() options?: MessageGroupOptions;
-
 
   get messageType(): MessageType {
     return this.options?.messageType ?? 'SENT';
