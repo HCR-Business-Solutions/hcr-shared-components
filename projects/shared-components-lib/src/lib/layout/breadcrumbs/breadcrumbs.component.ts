@@ -9,7 +9,10 @@ import { CrumbComponent } from './crumb.component';
   imports: [CommonModule, CrumbComponent],
   template: `
     <div class="breadcrumb-container">
-      <nyhcr-crumb *ngFor="let crumb of this.breadcrumbs; last as isLast" [crumb]="crumb" [hideSeparator]="!isLast" />
+      <nyhcr-crumb
+        *ngFor="let crumb of this.breadcrumbs; last as isLast"
+        [crumb]="crumb" [hideSeparator]="!isLast"
+      />
     </div>
   `,
   styles: [],
