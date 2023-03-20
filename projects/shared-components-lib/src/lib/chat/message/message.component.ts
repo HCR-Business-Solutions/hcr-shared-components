@@ -38,7 +38,7 @@ import {
         [message]="this.message"
         [options]="this.bubbleOptions"
         [timestampOptions]="this.options?.timestamp"
-      ></nyhcr-message-bubble>
+      />
     </div>
     </div>
   `,

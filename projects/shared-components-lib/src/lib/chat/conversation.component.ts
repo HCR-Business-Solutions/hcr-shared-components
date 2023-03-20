@@ -1,8 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Message, MessageUser, ConversationOptions, MessageBubbleOptions } from './message';
+import {
+  Message,
+  MessageUser,
+  ConversationOptions,
+  MessageBubbleOptions,
+} from './message';
 import { MessageGroupComponent } from './message-group.component';
-
 
 @Component({
   selector: 'nyhcr-conversation',
@@ -23,7 +27,7 @@ import { MessageGroupComponent } from './message-group.component';
           showAvatar: this.options?.showAvatar,
           offsetAvatar: this.options?.offsetAvatar
         }"
-      ></nyhcr-message-group>
+      />
     </div>
   `,
   styles: [

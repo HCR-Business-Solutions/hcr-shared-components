@@ -35,7 +35,7 @@ import { MessageGrouping } from './message/types/message-grouping';
           bubble: this.bubbleOptions(i),
           timestamp: this.options?.timestamp
         }"
-      ></nyhcr-message>
+      />
     </div>
   `,
   styles: [
