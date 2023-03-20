@@ -3,8 +3,11 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { MessageComponent } from './message/message.component';
 import {
-  Message, MessageBubbleOptions, MessageGroupOptions,
-  MessageType
+  Message,
+  MessageBubbleOptions,
+  MessageGroupOptions,
+  MessageOptions,
+  MessageType,
 } from './message/types';
 import { MessageGrouping } from './message/types/message-grouping';
 
@@ -19,22 +22,9 @@ import { MessageGrouping } from './message/types/message-grouping';
           let message of this.messages;
           first as isFirst;
           last as isLast;
-          index as i
         "
         [message]="message"
-        [options]="{
-          messageType: this.messageType,
-          offsetAvatar:
-            (this.options?.offsetAvatar ?? !isLast) &&
-            this.messageType === 'RECEIVED' &&
-            this.hasAvatar,
-          showAvatar:
-            (this.options?.showAvatar ?? isLast) &&
-            this.messageType === 'RECEIVED',
-          grouping: this.calcGrouping(isFirst, isLast),
-          bubble: this.bubbleOptions(i),
-          timestamp: this.options?.timestamp
-        }"
+        [options]="this.getMessageOptions(isFirst, isLast)"
       />
     </div>
   `,
@@ -61,7 +51,22 @@ export class MessageGroupComponent {
     return !!this.messages[0].owner.icon;
   }
 
-  public calcGrouping(isFirst: boolean, isLast: boolean): MessageGrouping {
+  public getMessageOptions(isFirst: boolean, isLast: boolean): MessageOptions {
+    return {
+      messageType: this.messageType,
+      offsetAvatar:
+        (this.options?.offsetAvatar ?? !isLast) &&
+        this.messageType === 'RECEIVED' &&
+        this.hasAvatar,
+      showAvatar:
+        (this.options?.showAvatar ?? isLast) && this.messageType === 'RECEIVED',
+      grouping: this.calcGrouping(isFirst, isLast),
+      bubble: this.bubbleOptions(isFirst),
+      timestamp: this.options?.timestamp,
+    };
+  }
+
+  private calcGrouping(isFirst: boolean, isLast: boolean): MessageGrouping {
     return isFirst && isLast
       ? 'NONE'
       : isFirst
@@ -71,16 +76,14 @@ export class MessageGroupComponent {
       : 'INNER';
   }
 
-  bubbleOptions(index: number): MessageBubbleOptions {
+  private bubbleOptions(isFirst: boolean): MessageBubbleOptions {
     return {
       displayOwner: this.options?.bubble?.displayOwner,
       displayTimestamp: this.options?.bubble?.displayTimestamp,
       displayStatus:
         this.options?.bubble?.displayStatus !== undefined
           ? this.options?.bubble?.displayStatus
-          : index === 0
-          ? true
-          : false,
+          : isFirst,
       messageType: this.messageType,
       styles: this.options?.bubble?.styles,
     };
