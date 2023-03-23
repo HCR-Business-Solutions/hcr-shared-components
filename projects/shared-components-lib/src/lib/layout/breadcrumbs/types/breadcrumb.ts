@@ -1,5 +1,11 @@
-export interface Breadcrumb {
+export type Breadcrumb = IconCrumb | TextCrumb;
+
+export interface IconCrumb {
   url: string;
-  name: string;
-  icon?: string;
+  icon: string;
+}
+
+export interface TextCrumb {
+  url: string;
+  text: string;
 }
