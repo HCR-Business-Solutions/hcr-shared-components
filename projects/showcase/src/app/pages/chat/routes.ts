@@ -10,26 +10,44 @@ export const CHAT_ROUTES: Route[] = [
   {
     path: '',
     pathMatch: 'full',
-    component: RootComponent
+    component: RootComponent,
+    data: {
+      crumb: 'Components'
+    }
   },
   {
     path: 'message-bubble',
-    component: MessageBubbleShowcaseComponent
+    component: MessageBubbleShowcaseComponent,
+    data: {
+      crumb: 'Message Bubble'
+    }
   },
   {
     path: 'message',
     component: MessageShowcaseComponent,
+    data: {
+      crumb: 'Message'
+    }
   },
   {
     path: 'message-group',
     component: MessageGroupShowcaseComponent,
+    data: {
+      crumb: 'Message Group'
+    }
   },
   {
     path: 'conversation',
     component: ConversationShowcaseComponent,
+    data: {
+      crumb: 'Conversation'
+    }
   },
   {
     path: 'types',
-    component: TypesComponent
+    component: TypesComponent,
+    data: {
+      crumb: 'Types'
+    }
   }
 ];

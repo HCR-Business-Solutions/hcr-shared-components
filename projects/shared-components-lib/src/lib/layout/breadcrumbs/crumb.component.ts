@@ -10,19 +10,33 @@ import { NgIconComponent } from '@ng-icons/core';
   imports: [CommonModule, RouterModule, NgIconComponent],
   template: `
     <div class="crumb-container">
-      <a class="crumb-link">
+      <a class="crumb-link" [routerLink]="this.crumb.url">
         <ng-container *ngIf="this.isIcon; then useIcon; else useText" />
         <ng-template #useIcon>
-          <ng-icon [name]="this.icon" />
+          <ng-icon [name]="this.icon" class="crumb-icon {{this.crumb.classes ?? ''}}" />
         </ng-template>
         <ng-template #useText>
-          <span>{{this.text}}</span>
+          <span class="crumb-text {{this.crumb.classes ?? ''}}">{{this.text}}</span>
         </ng-template>
       </a>
-      <span class="crumb-separator" *ngIf="!this.hideSeparator"></span>
+      <span class="crumb-separator" *ngIf="!this.hideSeparator">&gt;</span>
     </div>
   `,
-  styles: [],
+  styles: [
+    `
+      .crumb-container {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+        align-items: center;
+      }
+    `,
+    `
+      .crumb-icon, .crumb-text {
+        padding-top: .125em;
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CrumbComponent {

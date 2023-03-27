@@ -11,11 +11,21 @@ import { CrumbComponent } from './crumb.component';
     <div class="breadcrumb-container">
       <nyhcr-crumb
         *ngFor="let crumb of this.breadcrumbs; last as isLast"
-        [crumb]="crumb" [hideSeparator]="!isLast"
+        [crumb]="crumb" [hideSeparator]="isLast"
       />
     </div>
   `,
-  styles: [],
+  styles: [
+    `
+      .breadcrumb-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+      }
+    `
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BreadcrumbsComponent {
